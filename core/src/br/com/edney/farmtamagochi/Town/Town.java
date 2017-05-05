@@ -5,26 +5,23 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import br.com.edney.farmtamagochi.TamagochiFarm;
+
 /**
  * Created by Desktop on 02/05/2017.
  */
 
 public class Town {
-    static final int WORLD_WIDTH = 100;
-    static final int WORLD_HEIGHT = 100;
 
-    private SpriteBatch batch;
     private Sprite mapSprite;
 
-    public Town(SpriteBatch batch){
-        this.batch = batch;
-
+    public Town(){
         mapSprite = new Sprite(new Texture(Gdx.files.internal("cidade2.png")));
         mapSprite.setPosition(0, 0);
-        mapSprite.setSize(WORLD_WIDTH, WORLD_HEIGHT);
+        mapSprite.setSize(TamagochiFarm.V_WIDTH, TamagochiFarm.V_HEIGHT);
     }
 
-    public void draw(){
+    public void draw(SpriteBatch batch){
         mapSprite.draw(batch);
     }
 

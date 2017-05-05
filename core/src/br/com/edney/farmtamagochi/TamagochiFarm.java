@@ -11,10 +11,19 @@ import com.badlogic.gdx.math.MathUtils;
 import br.com.edney.farmtamagochi.Screen.TownScreen;
 import br.com.edney.farmtamagochi.Town.Town;
 
-public class MainClass extends Game {
+public class TamagochiFarm extends Game {
+	public static final int V_WIDTH = 400;
+	public static final int V_HEIGHT = 400;
+	public SpriteBatch batch;
 
 	@Override
 	public void create() {
+		batch = new SpriteBatch();
 		setScreen(new TownScreen(this));
+	}
+
+	@Override
+	public void render() {
+		super.render();
 	}
 }

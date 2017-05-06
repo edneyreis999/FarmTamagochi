@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Pet {
 
-    private SpriteBatch batch;
     private Texture[] sprites;
     private Animation<Texture> animation;
     private float posX, posY;
@@ -20,8 +19,7 @@ public class Pet {
     // A variable for tracking elapsed time for the animation
     float stateTime;
 
-    public Pet(SpriteBatch batch, float posX, float posY){
-        this.batch = batch;
+    public Pet(float posX, float posY){
         this.posX = posX;
         this.posY = posY;
 
@@ -32,9 +30,10 @@ public class Pet {
         }
 
         animation = new Animation<Texture>(1f, sprites);
+        stateTime = 0;
     }
 
-    public void draw(){
+    public void draw(SpriteBatch batch){
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
 
         // Get current frame of animation for the current stateTime

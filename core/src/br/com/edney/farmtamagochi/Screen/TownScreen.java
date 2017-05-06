@@ -5,10 +5,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -22,7 +24,7 @@ import sun.rmi.runtime.Log;
  * Created by Desktop on 02/05/2017.
  */
 
-public class TownScreen implements Screen{
+public class TownScreen implements Screen, GestureDetector.GestureListener{
     private TamagochiFarm game;
     private OrthographicCamera cameraTown;
     private Viewport viewport;
@@ -34,6 +36,9 @@ public class TownScreen implements Screen{
     private TmxMapLoader maploader;
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
+
+
+    private Vector2 toque;
 
     public TownScreen(TamagochiFarm game){
         this.game = game;
@@ -58,6 +63,9 @@ public class TownScreen implements Screen{
 
         //town = new Town();
         pet = new Pet(viewport.getWorldWidth() /2, viewport.getWorldHeight() /2);
+
+        toque = new Vector2();
+        Gdx.input.setInputProcessor(new GestureDetector(this));
     }
 
     @Override
@@ -108,7 +116,7 @@ public class TownScreen implements Screen{
     }
 
     public void update(float deltaTime){
-        handleInput(deltaTime);
+        //handleInput(deltaTime);
         cameraTown.update();
         renderer.setView(cameraTown);
     }
@@ -147,5 +155,58 @@ public class TownScreen implements Screen{
         map.dispose();
         renderer.dispose();
         hud.dispose();
+    }
+
+    @Override
+    public boolean touchDown(float x, float y, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean tap(float x, float y, int count, int button) {
+        Gdx.app.log("Log", "tap");
+        return true;
+    }
+
+    @Override
+    public boolean longPress(float x, float y) {
+        Gdx.app.log("Log", "longPress");
+        return true;
+    }
+
+    @Override
+    public boolean fling(float velocityX, float velocityY, int button) {
+        Gdx.app.log("Log", "fling");
+        viewport.unproject(toque.set(velocityX, velocityY));
+        Gdx.app.log("Log", velocityX + " " + velocityY + " " + toque.x + " " + toque.y);
+
+        cameraTown.position.x += 100 * velocityX;
+        cameraTown.position.y += 100 * velocityY;
+        return true;
+    }
+
+    @Override
+    public boolean pan(float x, float y, float deltaX, float deltaY) {
+        return false;
+    }
+
+    @Override
+    public boolean panStop(float x, float y, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean zoom(float initialDistance, float distance) {
+        return false;
+    }
+
+    @Override
+    public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
+        return false;
+    }
+
+    @Override
+    public void pinchStop() {
+
     }
 }

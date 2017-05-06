@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" nextobjectid="1">
  <tileset firstgid="1" name="PlayStation - Digimon World - Amida Forest Day" tilewidth="16" tileheight="16" tilecount="3216" columns="48">
-  <image source="../../../../imagens/PlayStation - Digimon World - Amida Forest Day.png" width="778" height="1078"/>
+  <image source="imagens/town.png" width="778" height="1078"/>
  </tileset>
  <layer name="Camada de Tiles 1" width="30" height="30">
   <data encoding="base64">

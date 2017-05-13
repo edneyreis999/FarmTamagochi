@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import br.com.edney.farmtamagochi.TamagochiFarm;
+import static br.com.edney.farmtamagochi.Util.Constantes.*;
 
 /**
  * Created by Notebook on 05/05/2017.
@@ -45,7 +45,7 @@ public class Hud implements Disposable {
 
         //setup the HUD viewport using a new camera seperate from our gamecam
         //define our stage using that viewport and our games spritebatch
-        viewport = new FitViewport(TamagochiFarm.V_WIDTH, TamagochiFarm.V_HEIGHT, new OrthographicCamera());
+        viewport = new FitViewport(V_WIDTH, V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
 
         //define a table used to organize our hud's labels

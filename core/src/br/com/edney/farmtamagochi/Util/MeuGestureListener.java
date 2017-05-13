@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 import br.com.edney.farmtamagochi.Screen.TownScreen;
 import br.com.edney.farmtamagochi.TamagochiFarm;
@@ -34,11 +35,24 @@ public class MeuGestureListener implements GestureDetector.GestureListener {
 
     @Override
     public boolean tap(float x, float y, int count, int button) {
+
         return false;
     }
 
     @Override
     public boolean longPress(float x, float y) {
+        // Transforma as coordenadas de toque na tela em toque no world
+        Vector3 vec=new Vector3(x, y, 0);
+        cam.unproject(vec);
+
+        Gdx.app.log("MeuGestureListener", "World coord x: "+ vec.x);
+        Gdx.app.log("MeuGestureListener", "World coord y: "+ vec.y);
+        Gdx.app.log("MeuGestureListener", "Screen coord x: "+ x);
+        Gdx.app.log("MeuGestureListener", "Screen coord y: "+ y);
+        // if sprite + 10 of px marge is touched
+        if(screen.pet.isTouched(0, vec.x, vec.y, x, y)) {
+            screen.evoluirPet(screen.pet);
+        }
         return false;
     }
 

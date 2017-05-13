@@ -19,6 +19,8 @@ import br.com.edney.farmtamagochi.TamagochiFarm;
 import br.com.edney.farmtamagochi.Model.Town;
 import br.com.edney.farmtamagochi.Util.MeuGestureListener;
 
+import static br.com.edney.farmtamagochi.Util.Constantes.*;
+
 /**
  * Created by Desktop on 02/05/2017.
  */
@@ -29,7 +31,7 @@ public class TownScreen implements Screen{
     private OrthographicCamera cameraTown;
     public Viewport viewport;
     private Town town;
-    private Pet pet;
+    public Pet pet;
     private Hud hud;
 
     //Tiled map variables
@@ -44,7 +46,7 @@ public class TownScreen implements Screen{
         this.game = game;
         // Constructs a new OrthographicCamera, using the given viewport width and height
         // Height is multiplied by aspect ratio.
-        viewport = new FitViewport(TamagochiFarm.V_WIDTH, TamagochiFarm.V_HEIGHT);
+        viewport = new FitViewport(V_WIDTH, V_HEIGHT);
         hud = new Hud(game.batch);
         cameraTown = (OrthographicCamera) viewport.getCamera();
 
@@ -62,7 +64,7 @@ public class TownScreen implements Screen{
         cameraTown.zoom -= 0.5f;
 
         //town = new Town();
-        pet = new Urso(viewport.getWorldWidth() /2, viewport.getWorldHeight() /4, Urso.Tamanho.OVO);
+        pet = new Urso(viewport.getWorldWidth() /4, viewport.getWorldHeight() /2, Urso.Tamanho.OVO);
 
         toque = new Vector2();
         Gdx.input.setInputProcessor(new GestureDetector(new MeuGestureListener(this)));
@@ -86,13 +88,17 @@ public class TownScreen implements Screen{
         game.batch.setProjectionMatrix(cameraTown.combined);
 
         game.batch.begin();
-        //town.draw(game.batch);
-        pet.draw(game.batch);
+        draw();
         game.batch.end();
 
         //Set our batch to now draw what the Hud camera sees.
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
+    }
+
+    private void draw() {
+        //town.draw(game.batch);
+        pet.draw(game.batch);
     }
 
     @Override
@@ -119,19 +125,20 @@ public class TownScreen implements Screen{
         //handleInput(deltaTime);
         cameraTown.update();
         renderer.setView(cameraTown);
-    }
-
-    public TiledMap getMap(){
-        return map;
+        pet.update(deltaTime);
     }
 
     public OrthographicCamera getCameraTown() {
         return cameraTown;
     }
 
-    public void setCameraTown(OrthographicCamera cameraTown) {
-        this.cameraTown = cameraTown;
+    public void evoluirPet(Pet pet){
+        Gdx.app.log("Pet", "Fazendo animação de evoluir pet");
+        //TODO mudar o usuario para uma nova tela, onde a camera vai aproximando de vagar e depois ele evolui.
+        // quando terminar a animação ele chama esse método
+        pet.evoluir();
     }
+
 
     @Override
     public void dispose() {

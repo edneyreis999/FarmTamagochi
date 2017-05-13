@@ -7,6 +7,6 @@ package br.com.edney.farmtamagochi.Util;
 public class Validate {
 
     public static float zoomMin = 0.02f;
-    public static float zoomMax = 2.0f;
+    public static float zoomMax = 0.5f;
     public static float zoomSpeed = 0.1f; // não funciona ainda// ;
 }

@@ -1,4 +1,4 @@
-package br.com.edney.farmtamagochi.Bicho;
+package br.com.edney.farmtamagochi.Model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -53,7 +53,7 @@ public abstract class Pet {
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
 
         // Get current frame of animation for the current stateTime
-        batch.draw(animation.getKeyFrame(stateTime, true), posX, posY, 10, 10); // Draw current frame at (50, 50)
+        //batch.draw(animation.getKeyFrame(stateTime, true), posX, posY, 10, 10); // Draw current frame at (50, 50)
     }
 
 }

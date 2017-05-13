@@ -1,4 +1,4 @@
-package br.com.edney.farmtamagochi.Town;
+package br.com.edney.farmtamagochi.Model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

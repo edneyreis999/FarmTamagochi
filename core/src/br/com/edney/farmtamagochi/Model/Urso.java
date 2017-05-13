@@ -1,9 +1,9 @@
-package br.com.edney.farmtamagochi.Bicho;
+package br.com.edney.farmtamagochi.Model;
 
 
 import static br.com.edney.farmtamagochi.Util.Constantes.*;
 
-public class Urso extends Pet{
+public class Urso extends br.com.edney.farmtamagochi.Model.Pet {
     private Tamanho tamanho;
     private String pathSprite;
     private int qtdSpritesIdle;

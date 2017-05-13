@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import br.com.edney.farmtamagochi.Bicho.Pet;
+import br.com.edney.farmtamagochi.Bicho.Urso;
 import br.com.edney.farmtamagochi.Scenes.Hud;
 import br.com.edney.farmtamagochi.TamagochiFarm;
 import br.com.edney.farmtamagochi.Town.Town;
@@ -63,7 +64,7 @@ public class TownScreen implements Screen{
         cameraTown.zoom -= 0.5f;
 
         //town = new Town();
-        pet = new Pet(viewport.getWorldWidth() /2, viewport.getWorldHeight() /2);
+        pet = new Urso(viewport.getWorldWidth() /2, viewport.getWorldHeight() /2, Urso.Tamanho.OVO);
 
         toque = new Vector2();
         Gdx.input.setInputProcessor(new GestureDetector(new MeuGestureListener(this)));

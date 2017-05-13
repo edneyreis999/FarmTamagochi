@@ -5,27 +5,43 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import static br.com.edney.farmtamagochi.Util.Constantes.*;
 
 /**
  * Created by Desktop on 02/05/2017.
  */
 
-public class Pet {
+public abstract class Pet {
 
-    private Texture[] sprites;
-    private Animation<Texture> animation;
-    private float posX, posY;
+    private String pathSprite;
+
+    protected Texture[] sprites;
+    private int qtdSpritesIdle;
+    protected Animation<Texture> animation;
+    protected float posX, posY;
 
     // A variable for tracking elapsed time for the animation
-    float stateTime;
+    protected float stateTime;
 
     public Pet(float posX, float posY){
         this.posX = posX;
         this.posY = posY;
 
-        sprites = new Texture[3];
-        for (int i = 1; i <= 3; i++) {
-            Texture t = new Texture("ovos/digieggs_0"+ i +".png");
+        configuraSprites();
+        initAnim();
+    }
+
+    private void configuraSprites(){
+        this.pathSprite = setPathSprites();
+        this.qtdSpritesIdle = setQtdSprites();
+    }
+    protected abstract String setPathSprites();
+    protected abstract int setQtdSprites();
+
+    private void initAnim() {
+        sprites = new Texture[qtdSpritesIdle];
+        for (int i = 1; i <= qtdSpritesIdle; i++) {
+            Texture t = new Texture(pathSprite + i +".png");
             sprites[i - 1] = t;
         }
 

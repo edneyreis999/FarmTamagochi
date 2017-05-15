@@ -1,10 +1,12 @@
 package br.com.edney.farmtamagochi.Model;
 
 
-import static br.com.edney.farmtamagochi.Util.Constantes.*;
+import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_OVO;
+import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_URSO_GRANDE;
+import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_URSO_MEDIO;
+import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_URSO_PEQUENO;
 
 public class Urso extends Pet {
-    private Tamanho tamanho;
     private String pathSprite;
     private int qtdSprites;
 
@@ -12,22 +14,22 @@ public class Urso extends Pet {
         super(posX, posY);
         this.tamanho = tamanho;
 
-        switch (tamanho){
+        switch (tamanho) {
             case OVO:
                 qtdSprites = QTD_SPRITES_OVO;
                 pathSprite = "ovos/digieggs_";
                 break;
             case PEQUENO:
                 qtdSprites = QTD_SPRITES_URSO_PEQUENO;
-                pathSprite = "urso/urso_pequeno/urso";
+                pathSprite = "urso/urso_pequeno/urso_";
                 break;
             case MEDIO:
                 qtdSprites = QTD_SPRITES_URSO_MEDIO;
-                pathSprite = "urso/urso_medio/urso";
+                pathSprite = "urso/urso_medio/urso_medio_";
                 break;
             case GRANDE:
                 qtdSprites = QTD_SPRITES_URSO_GRANDE;
-                pathSprite = "urso/urso_grande/urso";
+                pathSprite = "urso/urso_grande/urso_grande_";
                 break;
         }
 
@@ -47,10 +49,12 @@ public class Urso extends Pet {
         return qtdSprites;
     }
 
-    public enum Tamanho{
-        OVO,
-        PEQUENO,
-        MEDIO,
-        GRANDE;
+    public Tamanho getTamanho() {
+        return tamanho;
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
     }
 }

@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
+import com.badlogic.gdx.utils.Disposable;
 
 import br.com.edney.farmtamagochi.Util.Clickable;
 
@@ -13,7 +15,9 @@ import static br.com.edney.farmtamagochi.Util.Constantes.*;
  * Created by Desktop on 02/05/2017.
  */
 
-public abstract class Pet implements Clickable{
+public abstract class Pet implements Clickable, Disposable{
+
+    protected Tamanho tamanho;
 
     public Circle corpo;
 
@@ -95,11 +99,43 @@ public abstract class Pet implements Clickable{
             }
         }
 
+        Gdx.app.log("Evolucao", "Tamanho: "+tamanho);
+
         return isTouched;
     }
 
-    public void evoluir(){
+    public Tamanho getProximoTamanho(){
         Gdx.app.log("Pet", "Estou evoluindooooooo!");
+        Tamanho retorno = null;
+        switch (tamanho){
+            case OVO:
+                retorno = Tamanho.PEQUENO;
+                break;
+            case PEQUENO:
+                retorno = Tamanho.MEDIO;
+                break;
+            case MEDIO:
+                retorno = Tamanho.GRANDE;
+                break;
+            case GRANDE:
+                retorno = Tamanho.OVO;
+                break;
+        }
+        return retorno;
+    }
+
+    @Override
+    public void dispose() {
+        for (int i = 0; i < sprites.length; i++) {
+            sprites[i].dispose();
+        }
+    }
+
+    public enum Tamanho{
+        OVO,
+        PEQUENO,
+        MEDIO,
+        GRANDE;
     }
 
 }

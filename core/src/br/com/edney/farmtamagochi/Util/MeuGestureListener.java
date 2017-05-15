@@ -35,7 +35,12 @@ public class MeuGestureListener implements GestureDetector.GestureListener {
 
     @Override
     public boolean tap(float x, float y, int count, int button) {
+        Vector3 vec=new Vector3(x, y, 0);
+        cam.unproject(vec);
 
+        if(screen.pet.isTouched(0, vec.x, vec.y, x, y)) {
+
+        }
         return false;
     }
 

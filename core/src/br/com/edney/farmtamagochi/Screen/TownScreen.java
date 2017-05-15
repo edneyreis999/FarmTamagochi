@@ -25,7 +25,7 @@ import static br.com.edney.farmtamagochi.Util.Constantes.*;
  * Created by Desktop on 02/05/2017.
  */
 
-public class TownScreen implements Screen{
+public class TownScreen implements Screen {
     private TamagochiFarm game;
 
     private OrthographicCamera cameraTown;
@@ -42,37 +42,39 @@ public class TownScreen implements Screen{
 
     private Vector2 toque;
 
-    public TownScreen(TamagochiFarm game){
+    public TownScreen(TamagochiFarm game) {
         this.game = game;
-        // Constructs a new OrthographicCamera, using the given viewport width and height
-        // Height is multiplied by aspect ratio.
-        viewport = new FitViewport(V_WIDTH, V_HEIGHT);
-        hud = new Hud(game.batch);
-        cameraTown = (OrthographicCamera) viewport.getCamera();
-
-
-        //Load our map and setup our map rendere
-        try{
-            maploader = new TmxMapLoader();
-            map = maploader.load("teste.tmx");
-            renderer = new OrthogonalTiledMapRenderer(map);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        //initially set our gamcam to be centered correctly at the start of of map
-        cameraTown.position.set(viewport.getWorldWidth() /4, viewport.getWorldHeight()/ 2, 0);
-        cameraTown.zoom -= 0.5f;
-
-        //town = new Town();
-        pet = new Urso(viewport.getWorldWidth() /4, viewport.getWorldHeight() /2, Urso.Tamanho.OVO);
-
-        toque = new Vector2();
-        Gdx.input.setInputProcessor(new GestureDetector(new MeuGestureListener(this)));
     }
 
     @Override
     public void show() {
+        viewport = new FitViewport(V_WIDTH, V_HEIGHT);
 
+        // Cria o pet caso não tenha ( pq pode voltar da screen de evolve )
+        if (pet == null) {
+            pet = new Urso(viewport.getWorldWidth() / 4, viewport.getWorldHeight() / 2, Urso.Tamanho.OVO);
+        }
+        hud = new Hud(game.batch);
+
+        //Load our map and setup our map rendere
+        try {
+            maploader = new TmxMapLoader();
+            map = maploader.load("teste.tmx");
+            renderer = new OrthogonalTiledMapRenderer(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Constructs a new OrthographicCamera, using the given viewport width and height
+        // Height is multiplied by aspect ratio.
+        cameraTown = (OrthographicCamera) viewport.getCamera();
+
+        //initially set our gamcam to be centered correctly at the start of of map
+        cameraTown.position.set(viewport.getWorldWidth() / 4, viewport.getWorldHeight() / 2, 0);
+        cameraTown.zoom -= 0.5f;
+
+        toque = new Vector2();
+        Gdx.input.setInputProcessor(new GestureDetector(new MeuGestureListener(this)));
     }
 
     @Override
@@ -103,7 +105,7 @@ public class TownScreen implements Screen{
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width,height);
+        viewport.update(width, height);
     }
 
     @Override
@@ -121,32 +123,28 @@ public class TownScreen implements Screen{
 
     }
 
-    public void update(float deltaTime){
+    public void update(float deltaTime) {
         //handleInput(deltaTime);
         cameraTown.update();
         renderer.setView(cameraTown);
         pet.update(deltaTime);
     }
 
-    public OrthographicCamera getCameraTown() {
-        return cameraTown;
-    }
+    public OrthographicCamera getCameraTown() { return cameraTown; }
 
-    public void evoluirPet(Pet pet){
-        Gdx.app.log("Pet", "Fazendo animação de evoluir pet");
-        //TODO mudar o usuario para uma nova tela, onde a camera vai aproximando de vagar e depois ele evolui.
-        // quando terminar a animação ele chama esse método
-        pet.evoluir();
+    public void evoluirPet(Pet petAntigo) {
+        Gdx.app.log("Pet", "Fazendo animação de getProximoTamanho petAntigo");
+        Pet.Tamanho tamanho = petAntigo.getProximoTamanho();
+        Urso petNovo = new Urso(petAntigo.posX, petAntigo.posY, tamanho);
+        game.setScreen(new EvolveScreen(game, petAntigo, petNovo, this));
     }
 
 
     @Override
     public void dispose() {
-        //town.dispose();
-        map.dispose();
-        //dispose of all our opened resources
         map.dispose();
         renderer.dispose();
         hud.dispose();
+        pet.dispose();
     }
 }

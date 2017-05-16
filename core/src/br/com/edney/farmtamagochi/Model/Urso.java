@@ -8,8 +8,8 @@ import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_URSO_PEQUEN
 
 public class Urso extends Pet {
 
-    public Urso(float posX, float posY, Tamanho tamanho) {
-        super(posX, posY);
+    public Urso(float posX, float posY, String saveId, Especie especie, Tamanho tamanho) {
+        super(posX, posY, saveId, especie);
         this.tamanho = tamanho;
         init();
     }
@@ -17,7 +17,7 @@ public class Urso extends Pet {
     @Override
     protected String getPathSprites() {
         String pathSprite = "";
-        switch (tamanho) {
+        switch (getTamanho()) {
             case OVO:
                 pathSprite = "ovos/digieggs_";
                 break;
@@ -37,7 +37,7 @@ public class Urso extends Pet {
     @Override
     protected int getQtdSprites() {
         int qtdSprites = 0;
-        switch (tamanho) {
+        switch (getTamanho()) {
             case OVO:
                 qtdSprites = QTD_SPRITES_OVO;
                 break;

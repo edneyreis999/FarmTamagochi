@@ -38,9 +38,12 @@ public class MeuGestureListener implements GestureDetector.GestureListener {
         Vector3 vec=new Vector3(x, y, 0);
         cam.unproject(vec);
 
-        if(screen.pet.isTouched(0, vec.x, vec.y, x, y)) {
+        for (int i = 0; i < screen.getPets().size(); i++) {
+            if(screen.getPets().get(i).isTouched(0, vec.x, vec.y, x, y)) {
 
+            }
         }
+
         return false;
     }
 
@@ -54,9 +57,12 @@ public class MeuGestureListener implements GestureDetector.GestureListener {
         Gdx.app.log("MeuGestureListener", "World coord y: "+ vec.y);
         Gdx.app.log("MeuGestureListener", "Screen coord x: "+ x);
         Gdx.app.log("MeuGestureListener", "Screen coord y: "+ y);
+
         // if sprite + 10 of px marge is touched
-        if(screen.pet.isTouched(0, vec.x, vec.y, x, y)) {
-            screen.evoluirPet(screen.pet);
+        for (int i = 0; i < screen.getPets().size(); i++) {
+            if(screen.getPets().get(i).isTouched(0, vec.x, vec.y, x, y)) {
+                screen.evoluirPet(screen.getPets().get(i));
+            }
         }
         return false;
     }

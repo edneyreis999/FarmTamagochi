@@ -10,11 +10,10 @@ public class Constantes {
     //Constantes de game
     public static final int V_WIDTH = 800;
     public static final int V_HEIGHT = 400;
+    public static final int TIME_TO_AUTO_SAVE = 10;
 
     // Constantes de pet
     public static int petsCorpoRaio = (int) (0.03f * V_WIDTH);
-
-
     public static final int QTD_SPRITES_OVO = 3;
     public static final int QTD_SPRITES_URSO_PEQUENO = 22;
     public static final int QTD_SPRITES_URSO_MEDIO = 10;

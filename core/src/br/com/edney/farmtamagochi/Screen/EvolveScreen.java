@@ -30,9 +30,9 @@ public class EvolveScreen implements Screen {
     private boolean evoluiu =false;
 
 
-    public EvolveScreen (TamagochiFarm game, Pet petAntigo, TownScreen town){
+    public EvolveScreen (TamagochiFarm game, Pet pet, TownScreen town){
         this.game = game;
-        this.pet = petAntigo;
+        this.pet = pet;
         this.town = town;
     }
     @Override
@@ -43,7 +43,7 @@ public class EvolveScreen implements Screen {
         cameraEvolve = (OrthographicCamera) viewport.getCamera();
 
         //initially set our gamcam to be centered correctly at the start of of map
-        cameraEvolve.position.set(viewport.getWorldWidth() /4, viewport.getWorldHeight()/ 2, 0);
+        cameraEvolve.position.set(pet.getPosX(), pet.getPosY(), 0);
         cameraEvolve.zoom -= 0.5f;
 
         zoomSpreed = 0.5f;

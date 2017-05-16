@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.utils.Disposable;
 
 import br.com.edney.farmtamagochi.Util.Clickable;
@@ -17,7 +16,12 @@ import static br.com.edney.farmtamagochi.Util.Constantes.*;
 
 public abstract class Pet implements Clickable, Disposable{
 
+    private String saveId = "";
+
     protected Tamanho tamanho;
+    private float posX;
+    private float posY;
+    private Especie especie;
 
     public Circle corpo;
 
@@ -27,15 +31,17 @@ public abstract class Pet implements Clickable, Disposable{
     private float deltaTimeSprites;
 
 
-    public float posX, posY;
+
 
     // A variable for tracking elapsed time for the animation
     protected float stateTime;
 
-    public Pet(float posX, float posY){
+    public Pet(float posX, float posY, String saveId, Especie especie){
         corpo = new Circle(posX, posY, petsCorpoRaio);
-        this.posX = posX;
-        this.posY = posY;
+        this.setPosX(posX);
+        this.setPosY(posY);
+        this.saveId = saveId;
+        this.especie = especie;
 
         Gdx.app.log("Pet", "Nasci na coordenada: "+posX+" / "+posY);
     }
@@ -87,10 +93,10 @@ public abstract class Pet implements Clickable, Disposable{
      * return false : Sprite not touched
      */
     public boolean isTouched(int margem,float xWorldCoord, float yWorldCoord, float xScreenPosition, float yScreenPosition) {
-        int xInit = (int)(posX - corpo.radius) - margem;
-        int xFim  = (int)(posX + corpo.radius) + margem;
-        int yInit = (int)(posY - corpo.radius) - margem;
-        int yFim  = (int)(posY + corpo.radius) + margem;
+        int xInit = (int)(getPosX() - corpo.radius) - margem;
+        int xFim  = (int)(getPosX() + corpo.radius) + margem;
+        int yInit = (int)(getPosY() - corpo.radius) - margem;
+        int yFim  = (int)(getPosY() + corpo.radius) + margem;
 
         isTouched = false;
         if(xWorldCoord >= xInit && xWorldCoord <= xFim){
@@ -99,31 +105,29 @@ public abstract class Pet implements Clickable, Disposable{
             }
         }
 
-        Gdx.app.log("Evolucao", "Tamanho: "+tamanho);
+        Gdx.app.log("Evolucao", "Tamanho: "+ getTamanho());
 
         return isTouched;
     }
 
     public void evoluir(){
         Gdx.app.log("Pet", "Estou evoluindooooooo!");
-        switch (tamanho){
+        switch (getTamanho()){
             case OVO:
-                tamanho = Tamanho.PEQUENO;
+                tamanho = (Tamanho.PEQUENO);
                 break;
             case PEQUENO:
-                tamanho = Tamanho.MEDIO;
+                tamanho = (Tamanho.MEDIO);
                 break;
             case MEDIO:
-                tamanho = Tamanho.GRANDE;
+                tamanho = (Tamanho.GRANDE);
                 break;
             case GRANDE:
-                tamanho = Tamanho.OVO;
+                tamanho = (Tamanho.OVO);
                 break;
         }
         init();
     }
-
-
 
     @Override
     public void dispose() {
@@ -132,11 +136,32 @@ public abstract class Pet implements Clickable, Disposable{
         }
     }
 
-    public enum Tamanho{
-        OVO,
-        PEQUENO,
-        MEDIO,
-        GRANDE;
+    public Tamanho getTamanho() {
+        return tamanho;
+    }
+
+    public float getPosX() {
+        return posX;
+    }
+
+    public void setPosX(float posX) {
+        this.posX = posX;
+    }
+
+    public float getPosY() {
+        return posY;
+    }
+
+    public void setPosY(float posY) {
+        this.posY = posY;
+    }
+
+    public String getSaveId() {
+        return saveId;
+    }
+
+    public Especie getEspecie() {
+        return especie;
     }
 
 }

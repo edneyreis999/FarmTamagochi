@@ -12,14 +12,21 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.ArrayList;
+
+import br.com.edney.farmtamagochi.Model.Especie;
 import br.com.edney.farmtamagochi.Model.Pet;
+import br.com.edney.farmtamagochi.Model.Tamanho;
+import br.com.edney.farmtamagochi.Model.Town;
 import br.com.edney.farmtamagochi.Model.Urso;
 import br.com.edney.farmtamagochi.Scenes.Hud;
 import br.com.edney.farmtamagochi.TamagochiFarm;
-import br.com.edney.farmtamagochi.Model.Town;
 import br.com.edney.farmtamagochi.Util.MeuGestureListener;
+import br.com.edney.farmtamagochi.Util.Save;
 
-import static br.com.edney.farmtamagochi.Util.Constantes.*;
+import static br.com.edney.farmtamagochi.Util.Constantes.TIME_TO_AUTO_SAVE;
+import static br.com.edney.farmtamagochi.Util.Constantes.V_HEIGHT;
+import static br.com.edney.farmtamagochi.Util.Constantes.V_WIDTH;
 
 /**
  * Created by Desktop on 02/05/2017.
@@ -31,7 +38,7 @@ public class TownScreen implements Screen {
     private OrthographicCamera cameraTown;
     public Viewport viewport;
     private Town town;
-    public Pet pet;
+    private ArrayList<Pet> pets;
     private Hud hud;
 
     //Tiled map variables
@@ -39,8 +46,12 @@ public class TownScreen implements Screen {
     public TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
 
-
     private Vector2 toque;
+
+    private int qtdPets = 0;
+
+    //autosave
+    float autoSaveCont = 0;
 
     public TownScreen(TamagochiFarm game) {
         this.game = game;
@@ -51,9 +62,21 @@ public class TownScreen implements Screen {
         viewport = new FitViewport(V_WIDTH, V_HEIGHT);
 
         // Cria o pet caso não tenha ( pq pode voltar da screen de evolve )
-        if (pet == null) {
-            pet = new Urso(viewport.getWorldWidth() / 4, viewport.getWorldHeight() / 2, Urso.Tamanho.OVO);
+        if (pets == null) {
+            Save save = Save.getInstance();
+            ArrayList<Pet> loadPets = save.loadPets();
+            if (loadPets.size() <= 0){
+                this.pets = new ArrayList<Pet>();
+                this.pets.add(new Urso(viewport.getWorldWidth() / 4, viewport.getWorldHeight() / 2, "0", Especie.URSO, Tamanho.OVO));
+                this.pets.add(new Urso(viewport.getWorldWidth() / 4 + 50, viewport.getWorldHeight() / 2 + 50, "1", Especie.URSO, Tamanho.OVO));
+                qtdPets ++;
+                qtdPets ++;
+            }else{
+                this.pets = loadPets;
+            }
+
         }
+
         hud = new Hud(game.batch);
 
         //Load our map and setup our map rendere
@@ -100,7 +123,9 @@ public class TownScreen implements Screen {
 
     private void draw() {
         //town.draw(game.batch);
-        pet.draw(game.batch);
+        for (int i = 0; i < pets.size(); i++) {
+            pets.get(i).draw(game.batch);
+        }
     }
 
     @Override
@@ -124,10 +149,20 @@ public class TownScreen implements Screen {
     }
 
     public void update(float deltaTime) {
-        //handleInput(deltaTime);
         cameraTown.update();
         renderer.setView(cameraTown);
-        pet.update(deltaTime);
+        for (int i = 0; i < pets.size(); i++) {
+            pets.get(i).update(deltaTime);
+        }
+
+        // autoSave
+        autoSaveCont += deltaTime;
+        if(autoSaveCont >= TIME_TO_AUTO_SAVE){
+            Save save = Save.getInstance();
+            save.saveGame(this);
+            Gdx.app.log("AutoSave", "Salvei o game e os "+qtdPets+" pets");
+            autoSaveCont = 0;
+        }
     }
 
     public OrthographicCamera getCameraTown() { return cameraTown; }
@@ -142,6 +177,16 @@ public class TownScreen implements Screen {
         map.dispose();
         renderer.dispose();
         hud.dispose();
-        pet.dispose();
+        for (int i = 0; i < pets.size(); i++) {
+            pets.get(i).dispose();
+        }
+    }
+
+    public int getQtdPets() {
+        return qtdPets;
+    }
+
+    public ArrayList<Pet> getPets() {
+        return pets;
     }
 }

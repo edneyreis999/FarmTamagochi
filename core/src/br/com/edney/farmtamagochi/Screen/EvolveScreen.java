@@ -20,19 +20,19 @@ import static br.com.edney.farmtamagochi.Util.Constantes.V_WIDTH;
 public class EvolveScreen implements Screen {
     private TamagochiFarm game;
     private TownScreen town;
-    private Pet petAntigo;
-    private Pet petNovo;
+    private Pet pet;
     private Viewport viewport;
     private OrthographicCamera cameraEvolve;
 
     private float zoomSpreed;
     private float deltaTimeZoom;
 
+    private boolean evoluiu =false;
 
-    public EvolveScreen (TamagochiFarm game, Pet petAntigo,Pet petNovo, TownScreen town){
+
+    public EvolveScreen (TamagochiFarm game, Pet petAntigo, TownScreen town){
         this.game = game;
-        this.petAntigo = petAntigo;
-        this.petNovo = petNovo;
+        this.pet = petAntigo;
         this.town = town;
     }
     @Override
@@ -56,8 +56,6 @@ public class EvolveScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
-
         game.batch.setProjectionMatrix(cameraEvolve.combined);
 
         game.batch.begin();
@@ -75,23 +73,24 @@ public class EvolveScreen implements Screen {
         }
         cameraEvolve.update();
 
-        petNovo.update(deltaTime);
-        petAntigo.update(deltaTime);
+        pet.update(deltaTime);
 
 
         // sai da animação
         if(cameraEvolve.zoom <= 0.20f){
-            town.pet = petNovo;
             game.setScreen(town);
         }
     }
 
     private void draw() {
-        if(cameraEvolve.zoom <= 0.25f){
-            petNovo.draw(game.batch);
-        }else{
-            petAntigo.draw(game.batch);
+        if(!evoluiu){
+            if(cameraEvolve.zoom <= 0.25f){
+                pet.evoluir();
+                evoluiu = true;
+            }
         }
+
+        pet.draw(game.batch);
     }
 
     @Override

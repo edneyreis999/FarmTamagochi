@@ -46,11 +46,11 @@ public abstract class Pet implements Clickable, Disposable{
     }
 
     private void configuraSprites(){
-        this.pathSprite = setPathSprites();
-        this.qtdSprites = setQtdSprites();
+        this.pathSprite = getPathSprites();
+        this.qtdSprites = getQtdSprites();
     }
-    protected abstract String setPathSprites();
-    protected abstract int setQtdSprites();
+    protected abstract String getPathSprites();
+    protected abstract int getQtdSprites();
 
     private void initAnim() {
         sprites = new Texture[qtdSprites];
@@ -104,25 +104,26 @@ public abstract class Pet implements Clickable, Disposable{
         return isTouched;
     }
 
-    public Tamanho getProximoTamanho(){
+    public void evoluir(){
         Gdx.app.log("Pet", "Estou evoluindooooooo!");
-        Tamanho retorno = null;
         switch (tamanho){
             case OVO:
-                retorno = Tamanho.PEQUENO;
+                tamanho = Tamanho.PEQUENO;
                 break;
             case PEQUENO:
-                retorno = Tamanho.MEDIO;
+                tamanho = Tamanho.MEDIO;
                 break;
             case MEDIO:
-                retorno = Tamanho.GRANDE;
+                tamanho = Tamanho.GRANDE;
                 break;
             case GRANDE:
-                retorno = Tamanho.OVO;
+                tamanho = Tamanho.OVO;
                 break;
         }
-        return retorno;
+        init();
     }
+
+
 
     @Override
     public void dispose() {

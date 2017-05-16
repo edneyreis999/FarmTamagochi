@@ -132,11 +132,8 @@ public class TownScreen implements Screen {
 
     public OrthographicCamera getCameraTown() { return cameraTown; }
 
-    public void evoluirPet(Pet petAntigo) {
-        Gdx.app.log("Pet", "Fazendo animação de getProximoTamanho petAntigo");
-        Pet.Tamanho tamanho = petAntigo.getProximoTamanho();
-        Urso petNovo = new Urso(petAntigo.posX, petAntigo.posY, tamanho);
-        game.setScreen(new EvolveScreen(game, petAntigo, petNovo, this));
+    public void evoluirPet(Pet pet) {
+        game.setScreen(new EvolveScreen(game, pet, this));
     }
 
 

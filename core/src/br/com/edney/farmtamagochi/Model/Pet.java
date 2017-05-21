@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Disposable;
 
 import br.com.edney.farmtamagochi.Util.Clickable;
@@ -14,9 +15,8 @@ import static br.com.edney.farmtamagochi.Util.Constantes.*;
  * Created by Desktop on 02/05/2017.
  */
 
-public abstract class Pet implements Clickable, Disposable{
-
-    private String saveId = "";
+public abstract class Pet extends Actor implements Clickable, Disposable{
+    private int saveId = 0;
 
     protected Tamanho tamanho;
     private float posX;
@@ -36,13 +36,18 @@ public abstract class Pet implements Clickable, Disposable{
     // A variable for tracking elapsed time for the animation
     protected float stateTime;
 
-    public Pet(float posX, float posY, String saveId, Especie especie){
+    public Pet(float posX, float posY, int saveId, Especie especie){
         corpo = new Circle(posX, posY, petsCorpoRaio);
         this.setPosX(posX);
         this.setPosY(posY);
         this.saveId = saveId;
         this.especie = especie;
 
+        this.setX(posX);
+        this.setY(posY);
+        this.setWidth(corpo.radius * 2);
+        this.setHeight(corpo.radius * 2);
+        this.setDebug(true);
         Gdx.app.log("Pet", "Nasci na coordenada: "+posX+" / "+posY);
     }
 
@@ -156,12 +161,12 @@ public abstract class Pet implements Clickable, Disposable{
         this.posY = posY;
     }
 
-    public String getSaveId() {
-        return saveId;
-    }
-
     public Especie getEspecie() {
         return especie;
+    }
+
+    public int getSaveId() {
+        return saveId;
     }
 
 }

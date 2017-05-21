@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import br.com.edney.farmtamagochi.Model.Pet;
 import br.com.edney.farmtamagochi.TamagochiFarm;
+import br.com.edney.farmtamagochi.Util.Save;
 
 import static br.com.edney.farmtamagochi.Util.Constantes.V_HEIGHT;
 import static br.com.edney.farmtamagochi.Util.Constantes.V_WIDTH;
@@ -46,7 +47,7 @@ public class EvolveScreen implements Screen {
         cameraEvolve.position.set(pet.getPosX(), pet.getPosY(), 0);
         cameraEvolve.zoom -= 0.5f;
 
-        zoomSpreed = 0.5f;
+        zoomSpreed = 0.25f;
     }
 
     @Override
@@ -78,6 +79,8 @@ public class EvolveScreen implements Screen {
 
         // sai da animação
         if(cameraEvolve.zoom <= 0.20f){
+            Save save = Save.getInstance();
+            save.salvarPet(pet);
             game.setScreen(town);
         }
     }

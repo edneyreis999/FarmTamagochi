@@ -8,7 +8,7 @@ import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_URSO_PEQUEN
 
 public class Urso extends Pet {
 
-    public Urso(float posX, float posY, String saveId, Especie especie, Tamanho tamanho) {
+    public Urso(float posX, float posY, int saveId, Especie especie, Tamanho tamanho) {
         super(posX, posY, saveId, especie);
         this.tamanho = tamanho;
         init();

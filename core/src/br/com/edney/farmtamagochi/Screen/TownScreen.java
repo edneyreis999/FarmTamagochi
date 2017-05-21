@@ -14,12 +14,13 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 
+import br.com.edney.farmtamagochi.Hud.Hud;
 import br.com.edney.farmtamagochi.Model.Especie;
+import br.com.edney.farmtamagochi.Model.GameVariaveis;
 import br.com.edney.farmtamagochi.Model.Pet;
 import br.com.edney.farmtamagochi.Model.Tamanho;
 import br.com.edney.farmtamagochi.Model.Town;
 import br.com.edney.farmtamagochi.Model.Urso;
-import br.com.edney.farmtamagochi.Scenes.Hud;
 import br.com.edney.farmtamagochi.TamagochiFarm;
 import br.com.edney.farmtamagochi.Util.MeuGestureListener;
 import br.com.edney.farmtamagochi.Util.Save;
@@ -48,8 +49,6 @@ public class TownScreen implements Screen {
 
     private Vector2 toque;
 
-    private int qtdPets = 0;
-
     //autosave
     float autoSaveCont = 0;
 
@@ -62,22 +61,25 @@ public class TownScreen implements Screen {
         viewport = new FitViewport(V_WIDTH, V_HEIGHT);
 
         // Cria o pet caso não tenha ( pq pode voltar da screen de evolve )
-        if (pets == null) {
-            Save save = Save.getInstance();
+        Save save = Save.getInstance();
+        GameVariaveis gameVariaveis = save.loadGame();
+        if (gameVariaveis.getQtdPets() <= 0){
+            this.pets = new ArrayList<Pet>();
+            int qtdPets = 0;
+            this.pets.add(new Urso(viewport.getWorldWidth() / 4, viewport.getWorldHeight() / 2, ++qtdPets, Especie.URSO, Tamanho.OVO));
+            this.pets.add(new Urso(viewport.getWorldWidth() / 4 + 50, viewport.getWorldHeight() / 2 + 50, ++qtdPets, Especie.URSO, Tamanho.OVO));
+            gameVariaveis.setQtdPets(qtdPets);
+            save.saveGame(this);
+        }else{
             ArrayList<Pet> loadPets = save.loadPets();
             if (loadPets.size() <= 0){
-                this.pets = new ArrayList<Pet>();
-                this.pets.add(new Urso(viewport.getWorldWidth() / 4, viewport.getWorldHeight() / 2, "0", Especie.URSO, Tamanho.OVO));
-                this.pets.add(new Urso(viewport.getWorldWidth() / 4 + 50, viewport.getWorldHeight() / 2 + 50, "1", Especie.URSO, Tamanho.OVO));
-                qtdPets ++;
-                qtdPets ++;
+                Gdx.app.error("Save", "Deu problema ao carregar pets");
             }else{
                 this.pets = loadPets;
             }
-
         }
 
-        hud = new Hud(game.batch);
+        hud = new Hud(game.batch, this);
 
         //Load our map and setup our map rendere
         try {
@@ -160,7 +162,8 @@ public class TownScreen implements Screen {
         if(autoSaveCont >= TIME_TO_AUTO_SAVE){
             Save save = Save.getInstance();
             save.saveGame(this);
-            Gdx.app.log("AutoSave", "Salvei o game e os "+qtdPets+" pets");
+            GameVariaveis gameVariaveis = GameVariaveis.getInstance();
+            Gdx.app.log("AutoSave", "Salvei o game e os "+gameVariaveis.getQtdPets()+" pets");
             autoSaveCont = 0;
         }
     }
@@ -180,10 +183,6 @@ public class TownScreen implements Screen {
         for (int i = 0; i < pets.size(); i++) {
             pets.get(i).dispose();
         }
-    }
-
-    public int getQtdPets() {
-        return qtdPets;
     }
 
     public ArrayList<Pet> getPets() {

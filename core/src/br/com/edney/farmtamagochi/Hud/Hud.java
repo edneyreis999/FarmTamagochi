@@ -30,9 +30,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import br.com.edney.farmtamagochi.Model.Pet;
 import br.com.edney.farmtamagochi.Screen.TownScreen;
 import br.com.edney.farmtamagochi.Util.MeuGestureListener;
+import br.com.edney.farmtamagochi.Util.StageGestureListener;
 
 import static br.com.edney.farmtamagochi.Util.Constantes.V_HEIGHT;
 import static br.com.edney.farmtamagochi.Util.Constantes.V_WIDTH;
+import static br.com.edney.farmtamagochi.Util.Constantes.petsCorpoRaio;
 
 /**
  * Created by Notebook on 05/05/2017.
@@ -41,7 +43,6 @@ import static br.com.edney.farmtamagochi.Util.Constantes.V_WIDTH;
 public class Hud implements Disposable {
     //Scene2D.ui Stage and its own Viewport for HUD
     public Stage stage;
-    private Viewport viewport;
     private Skin skin = new Skin(Gdx.files.internal("skin/sgx-ui.json"));
     private TownScreen town;
 
@@ -52,11 +53,10 @@ public class Hud implements Disposable {
     private TextButton btnAction2;
     private TextButton btnAction3;
 
-    public Hud(SpriteBatch sb, TownScreen town){
+    public Hud(SpriteBatch batch, TownScreen town, Stage stage){
+        this.stage = stage;
         //setup the HUD viewport using a new camera seperate from our gamecam
         //define our stage using that viewport and our games spritebatch
-        viewport = new FitViewport(V_WIDTH, V_HEIGHT, new OrthographicCamera());
-        stage = new Stage(viewport, sb);
         this.town = town;
 
         //define a table used to organize our hud's labels
@@ -71,8 +71,8 @@ public class Hud implements Disposable {
         table.setDebug(true); // turn on all debug lines (table, cell, and widget)
         //add our table to the stage
         //stage.addActor(table);
+        Gdx.input.setInputProcessor(new GestureDetector(new StageGestureListener(stage)));
         Gdx.input.setInputProcessor(stage);
-
     }
 
     private void criarBotaoAlimentacao() {
@@ -81,17 +81,8 @@ public class Hud implements Disposable {
         skin.add("badlogic", new Texture("ovos/digieggs_1.png"));
 
         Image sourceImage = new Image(skin, "badlogic");
-        sourceImage.setBounds(50, 125, 100, 100);
+        sourceImage.setBounds(200, 100, petsCorpoRaio, petsCorpoRaio);
         stage.addActor(sourceImage);
-
-        Image validTargetImage = new Image(skin, "badlogic");
-        validTargetImage.setBounds(200, 50, 100, 100);
-        stage.addActor(validTargetImage);
-/*
-        Image invalidTargetImage = new Image(skin, "badlogic");
-        invalidTargetImage.setBounds(200, 200, 100, 100);
-        stage.addActor(invalidTargetImage);
-        */
 
         DragAndDrop dragAndDrop = new DragAndDrop();
         dragAndDrop.addSource(new DragAndDrop.Source(sourceImage) {
@@ -141,12 +132,7 @@ public class Hud implements Disposable {
 //            }
 //        });
 
-        for (Pet pet: town.getPets()) {
-            //pet.setBounds(pet.getPosX(), pet.getPosY(), pet.corpo.radius * 2, pet.corpo.radius * 2);
-            validTargetImage.getX();
-            Gdx.app.log("Drag", " pet.getHeight(): "+ pet.getX()+" pet.getWidth(): "+pet.getY());
-            Gdx.app.log("Drag", " validTargetImage.getX(): "+ validTargetImage.getX()+" validTargetImage.getY(): "+validTargetImage.getY());
-            stage.addActor(pet);
+        for (final Pet pet: town.getPets()) {
             dragAndDrop.addTarget(new DragAndDrop.Target(pet) {
                 public boolean drag (DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
                     getActor().setColor(Color.YELLOW);
@@ -158,7 +144,7 @@ public class Hud implements Disposable {
                 }
 
                 public void drop (DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                    Gdx.app.log("Drag", " Pet aceitou ser draggado");
+                    Gdx.app.log("Drag", pet.getSaveId()+" Pet aceitou ser draggado");
                 }
             });
         }

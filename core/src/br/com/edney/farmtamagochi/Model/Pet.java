@@ -2,6 +2,7 @@ package br.com.edney.farmtamagochi.Model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -19,8 +20,6 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
     private int saveId = 0;
 
     protected Tamanho tamanho;
-    private float posX;
-    private float posY;
     private Especie especie;
 
     public Circle corpo;
@@ -37,9 +36,7 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
     protected float stateTime;
 
     public Pet(float posX, float posY, int saveId, Especie especie){
-        corpo = new Circle(posX, posY, petsCorpoRaio);
-        this.setPosX(posX);
-        this.setPosY(posY);
+        corpo = new Circle(posX + petsCorpoRaio, posY + petsCorpoRaio, petsCorpoRaio);
         this.saveId = saveId;
         this.especie = especie;
 
@@ -48,7 +45,7 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
         this.setWidth(corpo.radius * 2);
         this.setHeight(corpo.radius * 2);
         this.setDebug(true);
-        Gdx.app.log("Pet", "Nasci na coordenada: "+posX+" / "+posY);
+        Gdx.app.log("Drag", "Nasci na coordenada: "+posX+" / "+posY);
     }
 
     public void init(){
@@ -73,12 +70,23 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
         stateTime = 0;
     }
 
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+
+        stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
+
+        // Get current frame of animation for the current stateTime
+        batch.draw(sprites[(int) deltaTimeSprites % qtdSprites], (corpo.x - corpo.radius), (corpo.y - corpo.radius), corpo.radius *2, corpo.radius *2);
+    }
+    /*
     public void draw(SpriteBatch batch){
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
 
         // Get current frame of animation for the current stateTime
         batch.draw(sprites[(int) deltaTimeSprites % qtdSprites], (corpo.x - corpo.radius), (corpo.y - corpo.radius), corpo.radius *2, corpo.radius *2);
     }
+    */
 
     public int update(float deltaTime){
         deltaTimeSprites += 6 * deltaTime;
@@ -98,6 +106,7 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
      * return false : Sprite not touched
      */
     public boolean isTouched(int margem,float xWorldCoord, float yWorldCoord, float xScreenPosition, float yScreenPosition) {
+        /*
         int xInit = (int)(getPosX() - corpo.radius) - margem;
         int xFim  = (int)(getPosX() + corpo.radius) + margem;
         int yInit = (int)(getPosY() - corpo.radius) - margem;
@@ -111,6 +120,7 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
         }
 
         Gdx.app.log("Evolucao", "Tamanho: "+ getTamanho());
+        */
 
         return isTouched;
     }
@@ -143,22 +153,6 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
 
     public Tamanho getTamanho() {
         return tamanho;
-    }
-
-    public float getPosX() {
-        return posX;
-    }
-
-    public void setPosX(float posX) {
-        this.posX = posX;
-    }
-
-    public float getPosY() {
-        return posY;
-    }
-
-    public void setPosY(float posY) {
-        this.posY = posY;
     }
 
     public Especie getEspecie() {

@@ -33,8 +33,8 @@ public class Save {
         preferences.putInteger(PetSave.PET_SAVE_IDD.toString(), pet.getSaveId());
         preferences.putInteger(PetSave.PET_TAMANHO.toString(), pet.getTamanho().ordinal());
         preferences.putInteger(PetSave.PET_ESPECIE.toString(), pet.getEspecie().ordinal());
-        preferences.putFloat(PetSave.PET_POS_X.toString(), pet.getPosX());
-        preferences.putFloat(PetSave.PET_POS_Y.toString(), pet.getPosY());
+        preferences.putFloat(PetSave.PET_POS_X.toString(),pet.getX());
+        preferences.putFloat(PetSave.PET_POS_Y.toString(), pet.getY());
         preferences.flush();
     }
 
@@ -46,8 +46,8 @@ public class Save {
             preferences.putInteger(PetSave.PET_SAVE_IDD.toString(), pets.get(i).getSaveId());
             preferences.putInteger(PetSave.PET_TAMANHO.toString(), pets.get(i).getTamanho().ordinal());
             preferences.putInteger(PetSave.PET_ESPECIE.toString(), pets.get(i).getEspecie().ordinal());
-            preferences.putFloat(PetSave.PET_POS_X.toString(), pets.get(i).getPosX());
-            preferences.putFloat(PetSave.PET_POS_Y.toString(), pets.get(i).getPosY());
+            preferences.putFloat(PetSave.PET_POS_X.toString(), pets.get(i).getX());
+            preferences.putFloat(PetSave.PET_POS_Y.toString(), pets.get(i).getY());
             preferences.flush();
         }
     }

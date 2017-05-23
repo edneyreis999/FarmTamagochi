@@ -44,7 +44,6 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
         this.setY(posY);
         this.setWidth(corpo.radius * 2);
         this.setHeight(corpo.radius * 2);
-        this.setDebug(true);
         Gdx.app.log("Drag", "Nasci na coordenada: "+posX+" / "+posY);
     }
 
@@ -77,7 +76,7 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
 
         // Get current frame of animation for the current stateTime
-        batch.draw(sprites[(int) deltaTimeSprites % qtdSprites], (corpo.x - corpo.radius), (corpo.y - corpo.radius), corpo.radius *2, corpo.radius *2);
+        batch.draw(sprites[(int) deltaTimeSprites % qtdSprites], (getX() - getWidth() /2), (getY() - getHeight() /2), getWidth(), getHeight());
     }
     /*
     public void draw(SpriteBatch batch){

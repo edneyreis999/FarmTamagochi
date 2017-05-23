@@ -107,10 +107,18 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
      */
     public boolean isTouched(int margem,float xWorldCoord, float yWorldCoord, float xScreenPosition, float yScreenPosition) {
         /*
-        int xInit = (int)(getPosX() - corpo.radius) - margem;
-        int xFim  = (int)(getPosX() + corpo.radius) + margem;
-        int yInit = (int)(getPosY() - corpo.radius) - margem;
-        int yFim  = (int)(getPosY() + corpo.radius) + margem;
+        int xInit = (int)(getX() - corpo.radius) - margem;
+        int xFim  = (int)(getX() + corpo.radius) + margem;
+        int yInit = (int)(getY() - corpo.radius) - margem;
+        int yFim  = (int)(getY() + corpo.radius) + margem;
+        */
+
+        int xInit = (int)(getX() - getWidth() / 2) - margem;
+        int xFim  = (int)(getX() + getWidth() / 2) + margem;
+        int yInit = (int)(getY() - getHeight()/ 2) - margem;
+        int yFim  = (int)(getY() + getHeight()/ 2) + margem;
+
+
 
         isTouched = false;
         if(xWorldCoord >= xInit && xWorldCoord <= xFim){
@@ -120,7 +128,7 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
         }
 
         Gdx.app.log("Evolucao", "Tamanho: "+ getTamanho());
-        */
+
 
         return isTouched;
     }

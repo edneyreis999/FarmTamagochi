@@ -3,7 +3,6 @@ package br.com.edney.farmtamagochi.Screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,7 +10,6 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -33,7 +31,6 @@ import br.com.edney.farmtamagochi.Model.Urso;
 import br.com.edney.farmtamagochi.TamagochiFarm;
 import br.com.edney.farmtamagochi.Util.MeuGestureListener;
 import br.com.edney.farmtamagochi.Util.Save;
-import br.com.edney.farmtamagochi.Util.StageGestureListener;
 
 import static br.com.edney.farmtamagochi.Util.Constantes.TIME_TO_AUTO_SAVE;
 import static br.com.edney.farmtamagochi.Util.Constantes.V_HEIGHT;
@@ -49,7 +46,7 @@ public class TownScreen implements Screen {
 
     private OrthographicCamera cameraTown;
     public Viewport viewport;
-    private Stage stage;
+    public Stage stage;
     private Town town;
     private ArrayList<Pet> pets;
     //private Hud hud;
@@ -60,8 +57,8 @@ public class TownScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
     //autosave
     float autoSaveCont = 0;
-    DragAndDrop dragAndDrop = new DragAndDrop();
     private InputMultiplexer inputMultiplexer = new InputMultiplexer();
+    private Hud hud;
 
     public TownScreen(TamagochiFarm game) {
         this.game = game;
@@ -79,6 +76,8 @@ public class TownScreen implements Screen {
         //initially set our gamcam to be centered correctly at the start of of map
         cameraTown.position.set(viewport.getWorldWidth() / 4, viewport.getWorldHeight() / 2, 0);
         cameraTown.zoom -= 0.5f;
+
+        viewport.setCamera(cameraTown);
 
         // Cria o pet caso não tenha ( pq pode voltar da screen de evolve )
         Save save = Save.getInstance();
@@ -99,27 +98,14 @@ public class TownScreen implements Screen {
             }
         }
 
-        adicionarBtnComida();
-
-        for (final Pet pet: pets) {
-            stage.addActor(pet);
-            dragAndDrop.addTarget(new DragAndDrop.Target(pet) {
-                public boolean drag (DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                    getActor().setColor(Color.YELLOW);
-                    return true;
-                }
-
-                public void reset (DragAndDrop.Source source, DragAndDrop.Payload payload) {
-                    getActor().setColor(Color.WHITE);
-                }
-
-                public void drop (DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                    Gdx.app.log("Drag", pet.getSaveId()+" Pet aceitou ser draggado");
-                }
-            });
+        for (Pet p: pets) {
+            stage.addActor(p);
         }
 
-        //hud = new Hud(game.batch, this, stage);
+
+        hud = new Hud(game.batch, this);
+
+
 
         //Load our map and setup our map rendere
         try {
@@ -132,38 +118,9 @@ public class TownScreen implements Screen {
 
         // Faz com que funcione o andar da camera e os action dos Actor
         inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(0, stage);
-        inputMultiplexer.addProcessor(1, new GestureDetector(new StageGestureListener(stage)));
+        inputMultiplexer.addProcessor(0, hud.getStage());
+        inputMultiplexer.addProcessor(1, new GestureDetector(new MeuGestureListener(this)));
         Gdx.input.setInputProcessor(inputMultiplexer);
-    }
-
-    private void adicionarBtnComida() {
-        final Skin skin = new Skin(Gdx.files.internal("skin/sgx-ui.json"));
-        skin.add("botoes", new Texture("ovos/digieggs_1.png"));
-
-        Image btnComida = new Image(skin, "botoes");
-        btnComida.setBounds(200, 100, petsCorpoRaio, petsCorpoRaio);
-        stage.addActor(btnComida);
-
-        dragAndDrop = new DragAndDrop();
-        dragAndDrop.addSource(new DragAndDrop.Source(btnComida) {
-            public DragAndDrop.Payload dragStart (InputEvent event, float x, float y, int pointer) {
-                DragAndDrop.Payload payload = new DragAndDrop.Payload();
-                payload.setObject("Some payload!");
-
-                payload.setDragActor(new Label("Some payload!", skin));
-
-                Label validLabel = new Label("Some payload!", skin);
-                validLabel.setColor(0, 1, 0, 1);
-                payload.setValidDragActor(validLabel);
-
-                Label invalidLabel = new Label("Some payload!", skin);
-                invalidLabel.setColor(1, 0, 0, 1);
-                payload.setInvalidDragActor(invalidLabel);
-
-                return payload;
-            }
-        });
     }
 
     @Override
@@ -182,18 +139,10 @@ public class TownScreen implements Screen {
         //draw();
         game.batch.end();
 
-        //Set our batch to now draw what the Hud camera sees.
-        //game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         stage.draw();
-    }
-
-    private void draw() {
-        //town.draw(game.batch);
-        /*
-        for (int i = 0; i < pets.size(); i++) {
-            pets.get(i).draw(game.batch);
-        }
-        */
+        //Set our batch to now draw what the Hud camera sees.
+        game.batch.setProjectionMatrix(hud.getStage().getCamera().combined);
+        hud.getStage().draw();
     }
 
     @Override

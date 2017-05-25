@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -28,7 +27,6 @@ public class EvolveScreen implements Screen {
 
     private float zoomSpreed;
     private float deltaTimeZoom;
-    private Stage stage;
 
     private boolean evoluiu =false;
 
@@ -37,9 +35,6 @@ public class EvolveScreen implements Screen {
         this.game = game;
         this.pet = pet;
         this.town = town;
-        stage = new Stage();
-
-        stage.addActor(pet);
     }
     @Override
     public void show() {
@@ -49,7 +44,7 @@ public class EvolveScreen implements Screen {
         cameraEvolve = (OrthographicCamera) viewport.getCamera();
 
         //initially set our gamcam to be centered correctly at the start of of map
-        cameraEvolve.position.set(pet.getX(), pet.getY(), 0);
+        cameraEvolve.position.set(pet.getX() + pet.getWidth() /2, pet.getY() + pet.getHeight() /2, 0);
         cameraEvolve.zoom -= 0.5f;
 
         zoomSpreed = 0.25f;
@@ -98,7 +93,7 @@ public class EvolveScreen implements Screen {
             }
         }
 
-        stage.draw();
+        pet.draw(game.batch, 255);
     }
 
     @Override

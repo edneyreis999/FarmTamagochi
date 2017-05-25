@@ -3,8 +3,6 @@ package br.com.edney.farmtamagochi.Model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Disposable;
 
@@ -20,11 +18,13 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
     private int saveId = 0;
 
     protected Tamanho tamanho;
-    private Especie especie;
-
+    protected CuidadoPet cuidadoPet;
     protected Texture[] sprites;
+
+    private Especie especie;
     private String pathSprite;
     private int qtdSprites;
+
     private float deltaTimeSprites;
 
 
@@ -42,12 +42,15 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
         this.setWidth(petsCorpoRaio* 2);
         this.setHeight(petsCorpoRaio * 2);
         this.setDebug(true);
+
+        cuidadoPet = new CuidadoPet();
         Gdx.app.log("Drag", "Nasci na coordenada: "+posX+" / "+posY);
     }
 
     public void init(){
         configuraSprites();
         initAnim();
+        getCuidadePet();
     }
 
     private void configuraSprites(){
@@ -56,6 +59,7 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
     }
     protected abstract String getPathSprites();
     protected abstract int getQtdSprites();
+    protected abstract void getCuidadePet();
 
     private void initAnim() {
         sprites = new Texture[qtdSprites];
@@ -78,9 +82,11 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
 
     }
 
-    public int update(float deltaTime){
+    public void update(float deltaTime){
         deltaTimeSprites += 6 * deltaTime;
-        return 0;
+
+        // atualiza as variaveis de cuidado do pet
+        cuidadoPet.update(deltaTime);
     }
 
     private boolean isTouched;
@@ -148,6 +154,10 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
 
     public Especie getEspecie() {
         return especie;
+    }
+
+    public CuidadoPet getCuidadoPet() {
+        return cuidadoPet;
     }
 
     public int getSaveId() {

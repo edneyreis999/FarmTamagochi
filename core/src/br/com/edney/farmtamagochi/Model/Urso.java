@@ -55,6 +55,25 @@ public class Urso extends Pet {
     }
 
     @Override
+    protected void getCuidadePet() {
+        // por hora vamos deixar tudo padrão
+        switch (getTamanho()) {
+            case OVO:
+
+                break;
+            case PEQUENO:
+
+                break;
+            case MEDIO:
+
+                break;
+            case GRANDE:
+
+                break;
+        }
+    }
+
+    @Override
     public void dispose() {
         super.dispose();
     }

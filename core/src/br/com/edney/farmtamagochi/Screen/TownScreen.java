@@ -49,7 +49,6 @@ public class TownScreen implements Screen {
     public Stage stage;
     private Town town;
     private ArrayList<Pet> pets;
-    //private Hud hud;
 
     //Tiled map variables
     private TmxMapLoader maploader;
@@ -136,7 +135,6 @@ public class TownScreen implements Screen {
         game.batch.setProjectionMatrix(cameraTown.combined);
 
         game.batch.begin();
-        //draw();
         game.batch.end();
 
         stage.draw();
@@ -172,6 +170,9 @@ public class TownScreen implements Screen {
             pets.get(i).update(deltaTime);
         }
 
+        //update o hud
+        hud.update(deltaTime);
+
         // autoSave
         autoSaveCont += deltaTime;
         if(autoSaveCont >= TIME_TO_AUTO_SAVE){
@@ -194,7 +195,7 @@ public class TownScreen implements Screen {
     public void dispose() {
         map.dispose();
         renderer.dispose();
-        //hud.dispose();
+        hud.dispose();
         for (int i = 0; i < pets.size(); i++) {
             pets.get(i).dispose();
         }

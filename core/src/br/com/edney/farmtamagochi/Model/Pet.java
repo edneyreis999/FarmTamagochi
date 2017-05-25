@@ -22,8 +22,6 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
     protected Tamanho tamanho;
     private Especie especie;
 
-    public Circle corpo;
-
     protected Texture[] sprites;
     private String pathSprite;
     private int qtdSprites;
@@ -36,14 +34,14 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
     protected float stateTime;
 
     public Pet(float posX, float posY, int saveId, Especie especie){
-        corpo = new Circle(posX + petsCorpoRaio, posY + petsCorpoRaio, petsCorpoRaio);
         this.saveId = saveId;
         this.especie = especie;
 
         this.setX(posX);
         this.setY(posY);
-        this.setWidth(corpo.radius * 2);
-        this.setHeight(corpo.radius * 2);
+        this.setWidth(petsCorpoRaio* 2);
+        this.setHeight(petsCorpoRaio * 2);
+        this.setDebug(true);
         Gdx.app.log("Drag", "Nasci na coordenada: "+posX+" / "+posY);
     }
 
@@ -76,16 +74,9 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
 
         // Get current frame of animation for the current stateTime
-        batch.draw(sprites[(int) deltaTimeSprites % qtdSprites], (getX() - getWidth() /2), (getY() - getHeight() /2), getWidth(), getHeight());
-    }
-    /*
-    public void draw(SpriteBatch batch){
-        stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
+        batch.draw(sprites[(int) deltaTimeSprites % qtdSprites], getX(), getY(), getWidth(), getHeight());
 
-        // Get current frame of animation for the current stateTime
-        batch.draw(sprites[(int) deltaTimeSprites % qtdSprites], (corpo.x - corpo.radius), (corpo.y - corpo.radius), corpo.radius *2, corpo.radius *2);
     }
-    */
 
     public int update(float deltaTime){
         deltaTimeSprites += 6 * deltaTime;
@@ -105,17 +96,10 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
      * return false : Sprite not touched
      */
     public boolean isTouched(int margem,float xWorldCoord, float yWorldCoord, float xScreenPosition, float yScreenPosition) {
-        /*
-        int xInit = (int)(getX() - corpo.radius) - margem;
-        int xFim  = (int)(getX() + corpo.radius) + margem;
-        int yInit = (int)(getY() - corpo.radius) - margem;
-        int yFim  = (int)(getY() + corpo.radius) + margem;
-        */
-
-        int xInit = (int)(getX() - getWidth() / 2) - margem;
-        int xFim  = (int)(getX() + getWidth() / 2) + margem;
-        int yInit = (int)(getY() - getHeight()/ 2) - margem;
-        int yFim  = (int)(getY() + getHeight()/ 2) + margem;
+        int xInit = (int) getX() - margem;
+        int xFim  = (int)(getX() + getWidth()) + margem;
+        int yInit = (int) getY() - margem;
+        int yFim  = (int)(getY() + getHeight()) + margem;
 
 
 

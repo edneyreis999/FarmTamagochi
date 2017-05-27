@@ -17,7 +17,7 @@ public class CuidadoPet {
     private float timer = 0;
 
     public CuidadoPet(){
-        fomeMax = 10;
+        fomeMax = 100;
         fomeMin = 0;
         frequenciaFome = 3;
         quantidadePorFome = 1;

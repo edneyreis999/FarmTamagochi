@@ -160,6 +160,10 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
         return cuidadoPet;
     }
 
+    public void setCuidadoPet(CuidadoPet cuidadoPet) {
+        this.cuidadoPet = cuidadoPet;
+    }
+
     public int getSaveId() {
         return saveId;
     }

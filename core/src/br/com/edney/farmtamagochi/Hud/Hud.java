@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import br.com.edney.farmtamagochi.Itens.Comida;
 import br.com.edney.farmtamagochi.Model.Pet;
 import br.com.edney.farmtamagochi.Screen.TownScreen;
 
@@ -81,28 +82,21 @@ public class Hud implements Disposable {
     }
 
     private void criarBotaoAlimentacao() {
-        skin.add("default", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        skin.add("badlogic", new Texture("ovos/digieggs_1.png"));
 
-        Image sourceImage = new Image(skin, "badlogic");
-        sourceImage.setBounds(viewport.getWorldWidth() / 2, viewport.getWorldWidth() / 24, petsCorpoRaio * 1.3f, petsCorpoRaio * 1.3f);
-        stage.addActor(sourceImage);
+        final Comida comida = new Comida();
+        final BtnComida btnComida = new BtnComida();
+        btnComida.setX(viewport.getWorldWidth() / 2);
+        btnComida.setY(viewport.getWorldWidth() / 24);
 
-        DragAndDrop dragAndDrop = new DragAndDrop();
-        dragAndDrop.addSource(new DragAndDrop.Source(sourceImage) {
+        stage.addActor(btnComida);
+
+        final DragAndDrop dragAndDrop = new DragAndDrop();
+        dragAndDrop.addSource(new DragAndDrop.Source(btnComida) {
             public DragAndDrop.Payload dragStart (InputEvent event, float x, float y, int pointer) {
                 DragAndDrop.Payload payload = new DragAndDrop.Payload();
-                payload.setObject("Some payload!");
 
-                payload.setDragActor(new Label("Some payload!", skin));
-
-                Label validLabel = new Label("Some payload!", skin);
-                validLabel.setColor(0, 1, 0, 1);
-                payload.setValidDragActor(validLabel);
-
-                Label invalidLabel = new Label("Some payload!", skin);
-                invalidLabel.setColor(1, 0, 0, 1);
-                payload.setInvalidDragActor(invalidLabel);
+                // cria a img do payload
+                payload.setDragActor(new BtnComida());
 
                 return payload;
             }
@@ -127,7 +121,9 @@ public class Hud implements Disposable {
                 // if sprite + 10 of px marge is touched
                 for (int i = 0; i < town.getPets().size(); i++) {
                     if(town.getPets().get(i).isTouched(0, vec.x, vec.y, x, y)) {
-                        Gdx.app.log("Drag", town.getPets().get(i).getSaveId() + "foi dragado");
+                        Pet petDragado = town.getPets().get(i);
+                        Gdx.app.log("Drag", petDragado.getSaveId() + "foi dragado");
+                        comida.alimentar(petDragado);
                     }
                 }
             }

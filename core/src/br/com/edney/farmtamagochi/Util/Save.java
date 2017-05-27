@@ -5,6 +5,7 @@ import com.badlogic.gdx.Preferences;
 
 import java.util.ArrayList;
 
+import br.com.edney.farmtamagochi.Model.CuidadoPet;
 import br.com.edney.farmtamagochi.Model.Especie;
 import br.com.edney.farmtamagochi.Model.GameVariaveis;
 import br.com.edney.farmtamagochi.Model.Pet;
@@ -27,28 +28,9 @@ public class Save {
         return save;
     }
 
-    public void salvarPet(Pet pet){
-        Preferences preferences;
-        preferences = Gdx.app.getPreferences(String.valueOf(pet.getSaveId()));
-        preferences.putInteger(PetSave.PET_SAVE_IDD.toString(), pet.getSaveId());
-        preferences.putInteger(PetSave.PET_TAMANHO.toString(), pet.getTamanho().ordinal());
-        preferences.putInteger(PetSave.PET_ESPECIE.toString(), pet.getEspecie().ordinal());
-        preferences.putFloat(PetSave.PET_POS_X.toString(),pet.getX());
-        preferences.putFloat(PetSave.PET_POS_Y.toString(), pet.getY());
-        preferences.flush();
-    }
-
     public void salvarPets(ArrayList<Pet> pets){
         for (int i = 0; i < pets.size(); i++) {
-            Preferences preferences;
-            Gdx.app.log("Save", "Salvei pet ID: "+String.valueOf(pets.get(i).getSaveId()));
-            preferences = Gdx.app.getPreferences(String.valueOf(pets.get(i).getSaveId()));
-            preferences.putInteger(PetSave.PET_SAVE_IDD.toString(), pets.get(i).getSaveId());
-            preferences.putInteger(PetSave.PET_TAMANHO.toString(), pets.get(i).getTamanho().ordinal());
-            preferences.putInteger(PetSave.PET_ESPECIE.toString(), pets.get(i).getEspecie().ordinal());
-            preferences.putFloat(PetSave.PET_POS_X.toString(), pets.get(i).getX());
-            preferences.putFloat(PetSave.PET_POS_Y.toString(), pets.get(i).getY());
-            preferences.flush();
+            salvarPet(pets.get(i));
         }
     }
 
@@ -79,6 +61,21 @@ public class Save {
         return pets;
     }
 
+    public void salvarPet(Pet pet){
+        Preferences preferences;
+        preferences = Gdx.app.getPreferences(String.valueOf(pet.getSaveId()));
+        // basicos
+        preferences.putInteger(PetSave.PET_SAVE_IDD.toString(), pet.getSaveId());
+        preferences.putInteger(PetSave.PET_TAMANHO.toString(), pet.getTamanho().ordinal());
+        preferences.putInteger(PetSave.PET_ESPECIE.toString(), pet.getEspecie().ordinal());
+        //posicao
+        preferences.putFloat(PetSave.PET_POS_X.toString(),pet.getX());
+        preferences.putFloat(PetSave.PET_POS_Y.toString(), pet.getY());
+        //Cuidados
+        preferences.putInteger(PetSave.PET_FOME_ATUALL.toString(), pet.getCuidadoPet().getFomeAtual());
+        preferences.flush();
+    }
+
     private Pet loadPet(int index){
         Preferences preferences = Gdx.app.getPreferences(String.valueOf(index));
         int tamanho = preferences.getInteger(PetSave.PET_TAMANHO.toString());
@@ -86,14 +83,20 @@ public class Save {
         float posX = preferences.getFloat(PetSave.PET_POS_X.toString());
         float posY = preferences.getFloat(PetSave.PET_POS_Y.toString());
         int saveId = preferences.getInteger(PetSave.PET_SAVE_IDD.toString());
+        int fomeAtual = preferences.getInteger(PetSave.PET_FOME_ATUALL.toString());
         Gdx.app.log("Save", "Load pet ID: "+String.valueOf(saveId));
 
         Pet p = null;
+        // 0 = Urso
         switch (especie){
             case 0:
-                //TODO criar construtor no Tamanho para pegar com int
                 Urso urso = new Urso(posX, posY, saveId, Especie.values()[0], Tamanho.values()[tamanho]);
                 p = urso;
+
+                CuidadoPet cuidadoPet = new CuidadoPet();
+                cuidadoPet.setFomeAtual(fomeAtual);
+                //cuidadoPet.setFomeAtual(cuidadoPet.getFomeMax());
+                p.setCuidadoPet(cuidadoPet);
                 break;
         }
 
@@ -109,7 +112,8 @@ public class Save {
         PET_ESPECIE,
         PET_TAMANHO,
         PET_POS_X,
-        PET_POS_Y;
+        PET_POS_Y,
+        PET_FOME_ATUALL;
     }
 }
 

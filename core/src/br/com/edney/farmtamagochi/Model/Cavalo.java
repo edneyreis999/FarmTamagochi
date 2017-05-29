@@ -1,5 +1,7 @@
 package br.com.edney.farmtamagochi.Model;
 
+import br.com.edney.farmtamagochi.Enum.Tamanho;
+
 import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_CAVALO_GRANDE;
 import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_CAVALO_MEDIO;
 import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_CAVALO_PEQUENO;
@@ -9,10 +11,10 @@ import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_OVO;
  * Created by Desktop on 28/05/2017.
  */
 
-public class Cavalo extends Pet{
+public class Cavalo extends Pet {
 
     public Cavalo(float posX, float posY, int saveId, Tamanho tamanho) {
-        super(posX, posY, saveId, Especie.CAVALO);
+        super(posX, posY, saveId, br.com.edney.farmtamagochi.Enum.Especie.CAVALO);
         this.tamanho = tamanho;
         init();
     }

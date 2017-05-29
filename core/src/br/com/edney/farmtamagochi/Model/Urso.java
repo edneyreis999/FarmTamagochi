@@ -1,6 +1,9 @@
 package br.com.edney.farmtamagochi.Model;
 
 
+import br.com.edney.farmtamagochi.Enum.Tamanho;
+
+import static br.com.edney.farmtamagochi.Enum.Especie.URSO;
 import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_OVO;
 import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_URSO_GRANDE;
 import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_URSO_MEDIO;
@@ -9,7 +12,7 @@ import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_URSO_PEQUEN
 public class Urso extends Pet {
 
     public Urso(float posX, float posY, int saveId, Tamanho tamanho) {
-        super(posX, posY, saveId, Especie.URSO);
+        super(posX, posY, saveId, URSO);
         this.tamanho = tamanho;
         init();
     }

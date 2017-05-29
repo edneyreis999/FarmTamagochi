@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+
 import br.com.edney.farmtamagochi.Model.Pet;
 import br.com.edney.farmtamagochi.TamagochiFarm;
 import br.com.edney.farmtamagochi.Util.Save;

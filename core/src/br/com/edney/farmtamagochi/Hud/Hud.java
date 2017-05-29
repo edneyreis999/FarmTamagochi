@@ -16,7 +16,6 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import br.com.edney.farmtamagochi.Itens.Comida;
 import br.com.edney.farmtamagochi.Model.Pet;
 import br.com.edney.farmtamagochi.Screen.TownScreen;
 
@@ -73,8 +72,7 @@ public class Hud implements Disposable {
         table.add(evolvePet1Label).expandX();
         table.add(evolvePet2Label).expandX();
 
-
-        criarBotaoAlimentacao();
+        criarActionBar();
 
         table.setDebug(true);
         stage.addActor(table);
@@ -88,13 +86,10 @@ public class Hud implements Disposable {
         evolvePet2Label.setText(String.valueOf(pet2.getStatus().getTimeToEvolve()));
     }
 
-    private void criarBotaoAlimentacao() {
-
-        final Comida comida = new Comida();
-        final BtnComida btnComida = new BtnComida();
-        btnComida.setX(viewport.getWorldWidth() / 2);
-        btnComida.setY(viewport.getWorldWidth() / 24);
-
+    private void criarActionBar() {
+        ActionBar actionBar = new ActionBar();
+        final BtnComida btnComida = actionBar.setActiorToBar(new BtnComida());
+        stage.addActor(actionBar);
         stage.addActor(btnComida);
 
         final DragAndDrop dragAndDrop = new DragAndDrop();
@@ -130,7 +125,7 @@ public class Hud implements Disposable {
                     if(town.getPets().get(i).isTouched(0, vec.x, vec.y, x, y)) {
                         Pet petDragado = town.getPets().get(i);
                         Gdx.app.log("Drag", petDragado.getSaveId() + "foi dragado");
-                        comida.alimentar(petDragado);
+                        btnComida.getComida().alimentar(petDragado);
                     }
                 }
             }

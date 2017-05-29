@@ -6,9 +6,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Disposable;
 
+import br.com.edney.farmtamagochi.Enum.Tamanho;
 import br.com.edney.farmtamagochi.Util.Clickable;
 
-import static br.com.edney.farmtamagochi.Util.Constantes.*;
+import static br.com.edney.farmtamagochi.Util.Constantes.petsCorpoRaio;
 
 /**
  * Created by Desktop on 02/05/2017.
@@ -21,7 +22,7 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
     protected Status status;
     protected Texture[] sprites;
 
-    private Especie especie;
+    private br.com.edney.farmtamagochi.Enum.Especie especie;
     private String pathSprite;
     private int qtdSprites;
 
@@ -33,7 +34,7 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
     // A variable for tracking elapsed time for the animation
     protected float stateTime;
 
-    public Pet(float posX, float posY, int saveId, Especie especie){
+    public Pet(float posX, float posY, int saveId, br.com.edney.farmtamagochi.Enum.Especie especie){
         this.saveId = saveId;
         this.especie = especie;
 
@@ -153,7 +154,7 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
         return tamanho;
     }
 
-    public Especie getEspecie() {
+    public br.com.edney.farmtamagochi.Enum.Especie getEspecie() {
         return especie;
     }
 

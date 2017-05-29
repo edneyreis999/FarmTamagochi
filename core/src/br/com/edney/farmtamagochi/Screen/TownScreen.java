@@ -17,10 +17,9 @@ import java.util.ArrayList;
 
 import br.com.edney.farmtamagochi.Hud.Hud;
 import br.com.edney.farmtamagochi.Model.Cavalo;
-import br.com.edney.farmtamagochi.Model.Especie;
 import br.com.edney.farmtamagochi.Model.GameVariaveis;
 import br.com.edney.farmtamagochi.Model.Pet;
-import br.com.edney.farmtamagochi.Model.Tamanho;
+import br.com.edney.farmtamagochi.Enum.Tamanho;
 import br.com.edney.farmtamagochi.Model.Urso;
 import br.com.edney.farmtamagochi.TamagochiFarm;
 import br.com.edney.farmtamagochi.Util.MeuGestureListener;

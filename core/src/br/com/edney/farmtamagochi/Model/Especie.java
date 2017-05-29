@@ -5,5 +5,6 @@ package br.com.edney.farmtamagochi.Model;
  */
 
 public enum Especie {
-    URSO;
+    URSO,
+    CAVALO;
 }

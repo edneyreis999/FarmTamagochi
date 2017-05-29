@@ -7,30 +7,43 @@ import com.badlogic.gdx.math.MathUtils;
  * Created by Desktop on 25/05/2017.
  */
 
-public class CuidadoPet {
+public class Status {
     private int fomeMax;
     private int fomeMin;
     private int frequenciaFome;
     private int quantidadePorFome;
-
     private int fomeAtual;
-    private float timer = 0;
 
-    public CuidadoPet(){
+    private float timeToEvolve;
+    private boolean isReadyToEvolve;
+
+    // Usado para calcular os status
+    private float timerFome = 0;
+
+    public Status(){
         fomeMax = 100;
         fomeMin = 0;
         frequenciaFome = 3;
         quantidadePorFome = 1;
         fomeAtual = fomeMax;
+
+        timeToEvolve = 60;
+        isReadyToEvolve = false;
     }
 
     public void update(float deltaTime){
-        timer += deltaTime;
-        if(timer >= frequenciaFome){
+        timerFome += deltaTime;
+
+        if(timerFome >= frequenciaFome){
             // nunca abaixar mais que fomeMin
             fomeAtual = MathUtils.clamp(fomeAtual - quantidadePorFome, fomeMin, fomeMax);
-            timer = 0;
-            Gdx.app.log("Cuidados", "Atualizou fome para "+fomeAtual);
+            timerFome = 0;
+        }
+
+        timeToEvolve -= deltaTime;
+
+        if(timeToEvolve <= 0){
+            isReadyToEvolve = true;
         }
     }
 
@@ -72,5 +85,20 @@ public class CuidadoPet {
 
     public void setFomeAtual(int fomeAtual) {
         this.fomeAtual = fomeAtual;
+    }
+
+    public float getTimeToEvolve() {
+        return timeToEvolve;
+    }
+
+    public void setTimeToEvolve(float timeToEvolve) {
+        this.timeToEvolve = timeToEvolve;
+    }
+    public boolean isReadyToEvolve() {
+        return isReadyToEvolve;
+    }
+
+    public void setReadyToEvolve(boolean readyToEvolve) {
+        isReadyToEvolve = readyToEvolve;
     }
 }

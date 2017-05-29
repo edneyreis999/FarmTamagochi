@@ -5,28 +5,22 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 
 import br.com.edney.farmtamagochi.Hud.Hud;
+import br.com.edney.farmtamagochi.Model.Cavalo;
 import br.com.edney.farmtamagochi.Model.Especie;
 import br.com.edney.farmtamagochi.Model.GameVariaveis;
 import br.com.edney.farmtamagochi.Model.Pet;
 import br.com.edney.farmtamagochi.Model.Tamanho;
-import br.com.edney.farmtamagochi.Model.Town;
 import br.com.edney.farmtamagochi.Model.Urso;
 import br.com.edney.farmtamagochi.TamagochiFarm;
 import br.com.edney.farmtamagochi.Util.MeuGestureListener;
@@ -35,7 +29,6 @@ import br.com.edney.farmtamagochi.Util.Save;
 import static br.com.edney.farmtamagochi.Util.Constantes.TIME_TO_AUTO_SAVE;
 import static br.com.edney.farmtamagochi.Util.Constantes.V_HEIGHT;
 import static br.com.edney.farmtamagochi.Util.Constantes.V_WIDTH;
-import static br.com.edney.farmtamagochi.Util.Constantes.petsCorpoRaio;
 
 /**
  * Created by Desktop on 02/05/2017.
@@ -47,7 +40,6 @@ public class TownScreen implements Screen {
     private OrthographicCamera cameraTown;
     public Viewport viewport;
     public Stage stage;
-    private Town town;
     private ArrayList<Pet> pets;
 
     //Tiled map variables
@@ -84,8 +76,8 @@ public class TownScreen implements Screen {
         if (gameVariaveis.getQtdPets() <= 0){
             this.pets = new ArrayList<Pet>();
             int qtdPets = 0;
-            this.pets.add(new Urso(viewport.getWorldWidth() / 4, viewport.getWorldHeight() / 2, ++qtdPets, Especie.URSO, Tamanho.OVO));
-            this.pets.add(new Urso(viewport.getWorldWidth() / 4 + 50, viewport.getWorldHeight() / 2 + 50, ++qtdPets, Especie.URSO, Tamanho.OVO));
+            this.pets.add(new Urso(viewport.getWorldWidth() / 4, viewport.getWorldHeight() / 2, ++qtdPets, Tamanho.OVO));
+            this.pets.add(new Cavalo(viewport.getWorldWidth() / 4 + 50, viewport.getWorldHeight() / 2 + 50, ++qtdPets, Tamanho.OVO));
             gameVariaveis.setQtdPets(qtdPets);
             save.saveGame(this);
         }else{
@@ -167,7 +159,12 @@ public class TownScreen implements Screen {
         cameraTown.update();
         renderer.setView(cameraTown);
         for (int i = 0; i < pets.size(); i++) {
-            pets.get(i).update(deltaTime);
+            //pets.get(i).update(deltaTime);
+            Pet pet = pets.get(i);
+            pet.update(deltaTime);
+            if(pet.getStatus().isReadyToEvolve()){
+                evoluirPet(pet);
+            }
         }
 
         //update o hud
@@ -182,6 +179,8 @@ public class TownScreen implements Screen {
             Gdx.app.log("AutoSave", "Salvei o game e os "+gameVariaveis.getQtdPets()+" pets");
             autoSaveCont = 0;
         }
+
+
     }
 
     public OrthographicCamera getCameraTown() { return cameraTown; }

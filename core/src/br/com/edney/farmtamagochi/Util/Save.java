@@ -5,7 +5,8 @@ import com.badlogic.gdx.Preferences;
 
 import java.util.ArrayList;
 
-import br.com.edney.farmtamagochi.Model.CuidadoPet;
+import br.com.edney.farmtamagochi.Model.Cavalo;
+import br.com.edney.farmtamagochi.Model.Status;
 import br.com.edney.farmtamagochi.Model.Especie;
 import br.com.edney.farmtamagochi.Model.GameVariaveis;
 import br.com.edney.farmtamagochi.Model.Pet;
@@ -71,32 +72,39 @@ public class Save {
         //posicao
         preferences.putFloat(PetSave.PET_POS_X.toString(),pet.getX());
         preferences.putFloat(PetSave.PET_POS_Y.toString(), pet.getY());
-        //Cuidados
-        preferences.putInteger(PetSave.PET_FOME_ATUALL.toString(), pet.getCuidadoPet().getFomeAtual());
+        //status
+        preferences.putInteger(PetSave.PET_FOME_ATUALL.toString(), pet.getStatus().getFomeAtual());
+        preferences.putFloat(PetSave.PET_TIME_TO_EVOLVE.toString(), pet.getStatus().getTimeToEvolve());
         preferences.flush();
     }
 
     private Pet loadPet(int index){
         Preferences preferences = Gdx.app.getPreferences(String.valueOf(index));
         int tamanho = preferences.getInteger(PetSave.PET_TAMANHO.toString());
-        int especie = preferences.getInteger(PetSave.PET_ESPECIE.toString());
+        int especieId = preferences.getInteger(PetSave.PET_ESPECIE.toString());
         float posX = preferences.getFloat(PetSave.PET_POS_X.toString());
         float posY = preferences.getFloat(PetSave.PET_POS_Y.toString());
         int saveId = preferences.getInteger(PetSave.PET_SAVE_IDD.toString());
         int fomeAtual = preferences.getInteger(PetSave.PET_FOME_ATUALL.toString());
+        float timeToEvolve = preferences.getFloat(PetSave.PET_TIME_TO_EVOLVE.toString());
         Gdx.app.log("Save", "Load pet ID: "+String.valueOf(saveId));
 
         Pet p = null;
-        // 0 = Urso
-        switch (especie){
-            case 0:
-                Urso urso = new Urso(posX, posY, saveId, Especie.values()[0], Tamanho.values()[tamanho]);
-                p = urso;
+        Especie especie = Especie.values()[especieId];
 
-                CuidadoPet cuidadoPet = new CuidadoPet();
-                cuidadoPet.setFomeAtual(fomeAtual);
-                //cuidadoPet.setFomeAtual(cuidadoPet.getFomeMax());
-                p.setCuidadoPet(cuidadoPet);
+        Status status = new Status();
+        status.setFomeAtual(fomeAtual);
+        status.setTimeToEvolve(timeToEvolve);
+        switch (especie){
+            case URSO:
+                Urso urso = new Urso(posX, posY, saveId, Tamanho.values()[tamanho]);
+                p = urso;
+                p.setStatus(status);
+                break;
+            case CAVALO:
+                Cavalo cavalo = new Cavalo(posX, posY, saveId, Tamanho.values()[tamanho]);
+                p = cavalo;
+                p.setStatus(status);
                 break;
         }
 
@@ -113,7 +121,8 @@ public class Save {
         PET_TAMANHO,
         PET_POS_X,
         PET_POS_Y,
-        PET_FOME_ATUALL;
+        PET_FOME_ATUALL,
+        PET_TIME_TO_EVOLVE;
     }
 }
 

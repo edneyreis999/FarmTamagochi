@@ -3,8 +3,6 @@ package br.com.edney.farmtamagochi.Itens;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 
 import br.com.edney.farmtamagochi.Model.Pet;
@@ -18,17 +16,17 @@ public class Comida extends Widget{
     int qtdAlimento;
 
     public Comida(){
-        imgPayload = new Texture("ovos/digieggs_11.png");
+        imgPayload = new Texture("ovos/ovo_azulclaro_1.png");
         qtdAlimento = 100;
     }
 
     public void alimentar(Pet pet){
-        int fomeAtualPet = pet.getCuidadoPet().getFomeAtual();
+        int fomeAtualPet = pet.getStatus().getFomeAtual();
 
-        int fomeMaxPet = pet.getCuidadoPet().getFomeMax();
-        int fomeMinPet = pet.getCuidadoPet().getFomeMin();
+        int fomeMaxPet = pet.getStatus().getFomeMax();
+        int fomeMinPet = pet.getStatus().getFomeMin();
 
-        pet.getCuidadoPet().setFomeAtual(MathUtils.clamp(fomeAtualPet + qtdAlimento, fomeMinPet, fomeMaxPet));
+        pet.getStatus().setFomeAtual(MathUtils.clamp(fomeAtualPet + qtdAlimento, fomeMinPet, fomeMaxPet));
     }
 
     @Override

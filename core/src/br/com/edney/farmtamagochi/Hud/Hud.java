@@ -3,20 +3,15 @@ package br.com.edney.farmtamagochi.Hud;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
-import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -27,7 +22,6 @@ import br.com.edney.farmtamagochi.Screen.TownScreen;
 
 import static br.com.edney.farmtamagochi.Util.Constantes.V_HEIGHT;
 import static br.com.edney.farmtamagochi.Util.Constantes.V_WIDTH;
-import static br.com.edney.farmtamagochi.Util.Constantes.petsCorpoRaio;
 
 /**
  * Created by Notebook on 05/05/2017.
@@ -43,6 +37,9 @@ public class Hud implements Disposable {
 
     private Label fomePet1Label;
     private Label fomePet2Label;
+
+    private Label evolvePet1Label;
+    private Label evolvePet2Label;
 
     private Pet pet1;
     private Pet pet2;
@@ -64,11 +61,18 @@ public class Hud implements Disposable {
         pet1 = town.getPets().get(0);
         pet2 = town.getPets().get(1);
 
-        fomePet1Label = new Label(String.valueOf(pet1.getCuidadoPet().getFomeAtual()), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        fomePet2Label = new Label(String.valueOf(pet2.getCuidadoPet().getFomeAtual()), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-
+        fomePet1Label = new Label(String.valueOf(0), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        fomePet2Label = new Label(String.valueOf(0), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         table.add(fomePet1Label).expandX();
         table.add(fomePet2Label).expandX();
+
+        table.row();
+
+        evolvePet1Label = new Label(String.valueOf(0), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        evolvePet2Label = new Label(String.valueOf(0), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        table.add(evolvePet1Label).expandX();
+        table.add(evolvePet2Label).expandX();
+
 
         criarBotaoAlimentacao();
 
@@ -77,8 +81,11 @@ public class Hud implements Disposable {
     }
 
     public void update(float dt){
-        fomePet1Label.setText(String.valueOf(pet1.getCuidadoPet().getFomeAtual()));
-        fomePet2Label.setText(String.valueOf(pet2.getCuidadoPet().getFomeAtual()));
+        fomePet1Label.setText(String.valueOf(pet1.getStatus().getFomeAtual()));
+        fomePet2Label.setText(String.valueOf(pet2.getStatus().getFomeAtual()));
+
+        evolvePet1Label.setText(String.valueOf(pet1.getStatus().getTimeToEvolve()));
+        evolvePet2Label.setText(String.valueOf(pet2.getStatus().getTimeToEvolve()));
     }
 
     private void criarBotaoAlimentacao() {

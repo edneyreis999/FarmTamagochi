@@ -1,15 +1,18 @@
 package br.com.edney.farmtamagochi.Model;
 
-
+import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_CAVALO_GRANDE;
+import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_CAVALO_MEDIO;
+import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_CAVALO_PEQUENO;
 import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_OVO;
-import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_URSO_GRANDE;
-import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_URSO_MEDIO;
-import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_URSO_PEQUENO;
 
-public class Urso extends Pet {
+/**
+ * Created by Desktop on 28/05/2017.
+ */
 
-    public Urso(float posX, float posY, int saveId, Tamanho tamanho) {
-        super(posX, posY, saveId, Especie.URSO);
+public class Cavalo extends Pet{
+
+    public Cavalo(float posX, float posY, int saveId, Tamanho tamanho) {
+        super(posX, posY, saveId, Especie.CAVALO);
         this.tamanho = tamanho;
         init();
     }
@@ -19,16 +22,16 @@ public class Urso extends Pet {
         String pathSprite = "";
         switch (getTamanho()) {
             case OVO:
-                pathSprite = "ovos/ovo_vermelho_";
+                pathSprite = "ovos/ovo_azul_";
                 break;
             case PEQUENO:
-                pathSprite = "urso/urso_pequeno/urso_";
+                pathSprite = "cavalo/cavalo_pequeno/cavalo_pequeno_";
                 break;
             case MEDIO:
-                pathSprite = "urso/urso_medio/urso_medio_";
+                pathSprite = "cavalo/cavalo_medio/cavalo_medio_";
                 break;
             case GRANDE:
-                pathSprite = "urso/urso_grande/urso_grande_";
+                pathSprite = "cavalo/cavalo_grande/cavalo_grande_";
                 break;
         }
         return pathSprite;
@@ -42,13 +45,13 @@ public class Urso extends Pet {
                 qtdSprites = QTD_SPRITES_OVO;
                 break;
             case PEQUENO:
-                qtdSprites = QTD_SPRITES_URSO_PEQUENO;
+                qtdSprites = QTD_SPRITES_CAVALO_PEQUENO;
                 break;
             case MEDIO:
-                qtdSprites = QTD_SPRITES_URSO_MEDIO;
+                qtdSprites = QTD_SPRITES_CAVALO_MEDIO;
                 break;
             case GRANDE:
-                qtdSprites = QTD_SPRITES_URSO_GRANDE;
+                qtdSprites = QTD_SPRITES_CAVALO_GRANDE;
                 break;
         }
         return qtdSprites;
@@ -60,26 +63,27 @@ public class Urso extends Pet {
         Status status = new Status();
         switch (getTamanho()) {
             case OVO:
-                status.setFrequenciaFome(8);
-                status.setTimeToEvolve(25);
+                status = new Status();
+                status.setFrequenciaFome(10);
+                status.setTimeToEvolve(40);
                 this.setStatus(status);
                 break;
             case PEQUENO:
                 status = new Status();
                 status.setFrequenciaFome(8);
-                status.setTimeToEvolve(40);
+                status.setTimeToEvolve(30);
                 this.setStatus(status);
                 break;
             case MEDIO:
                 status = new Status();
                 status.setFrequenciaFome(6);
-                status.setTimeToEvolve(60);
+                status.setTimeToEvolve(45);
                 this.setStatus(status);
                 break;
             case GRANDE:
                 status = new Status();
                 status.setFrequenciaFome(4);
-                status.setTimeToEvolve(80);
+                status.setTimeToEvolve(60);
                 this.setStatus(status);
                 break;
         }

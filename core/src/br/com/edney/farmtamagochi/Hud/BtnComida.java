@@ -14,7 +14,7 @@ public class BtnComida extends Widget {
     private Texture texture;
 
     BtnComida(){
-        texture = new Texture("ovos/digieggs_11.png");
+        texture = new Texture("ovos/ovo_azulclaro_1.png");
         this.setWidth(petsCorpoRaio * 1.3f);
         this.setHeight(petsCorpoRaio * 1.3f);
     }

@@ -18,7 +18,7 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
     private int saveId = 0;
 
     protected Tamanho tamanho;
-    protected CuidadoPet cuidadoPet;
+    protected Status status;
     protected Texture[] sprites;
 
     private Especie especie;
@@ -43,14 +43,14 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
         this.setHeight(petsCorpoRaio * 2);
         this.setDebug(true);
 
-        cuidadoPet = new CuidadoPet();
+        status = new Status();
         Gdx.app.log("Drag", "Nasci na coordenada: "+posX+" / "+posY);
     }
 
     public void init(){
         configuraSprites();
         initAnim();
-        getCuidadePet();
+        getStatusPet();
     }
 
     private void configuraSprites(){
@@ -59,7 +59,7 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
     }
     protected abstract String getPathSprites();
     protected abstract int getQtdSprites();
-    protected abstract void getCuidadePet();
+    protected abstract void getStatusPet();
 
     private void initAnim() {
         sprites = new Texture[qtdSprites];
@@ -86,7 +86,7 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
         deltaTimeSprites += 6 * deltaTime;
 
         // atualiza as variaveis de cuidado do pet
-        cuidadoPet.update(deltaTime);
+        status.update(deltaTime);
     }
 
     private boolean isTouched;
@@ -139,6 +139,7 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
                 break;
         }
         init();
+        status.setReadyToEvolve(false);
     }
 
     @Override
@@ -156,12 +157,12 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
         return especie;
     }
 
-    public CuidadoPet getCuidadoPet() {
-        return cuidadoPet;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setCuidadoPet(CuidadoPet cuidadoPet) {
-        this.cuidadoPet = cuidadoPet;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public int getSaveId() {

@@ -7,10 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import br.com.edney.farmtamagochi.Screen.TownScreen;
-import br.com.edney.farmtamagochi.TamagochiFarm;
-
-import static br.com.edney.farmtamagochi.Util.Validate.zoomMax;
-import static br.com.edney.farmtamagochi.Util.Validate.zoomMin;
+import static br.com.edney.farmtamagochi.Util.Constantes.*;
 
 /**
  * Created by Desktop on 07/05/2017.
@@ -144,7 +141,7 @@ public class MeuGestureListener implements GestureDetector.GestureListener {
         float currentZoom =  screen.getCameraTown().zoom;
         float zoomFinal = (initialDistance / distance) * currentZoom;
 
-        if(zoomFinal > zoomMin && zoomFinal < zoomMax){
+        if(zoomFinal > ZOOM_MIN && zoomFinal < ZOOM_MAX){
             screen.getCameraTown().zoom = zoomFinal;
         }
         return false;

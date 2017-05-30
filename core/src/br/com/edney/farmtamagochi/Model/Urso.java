@@ -2,6 +2,7 @@ package br.com.edney.farmtamagochi.Model;
 
 
 import br.com.edney.farmtamagochi.Enum.Tamanho;
+import br.com.edney.farmtamagochi.Enum.TipoComida;
 
 import static br.com.edney.farmtamagochi.Enum.Especie.URSO;
 import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_OVO;
@@ -61,28 +62,26 @@ public class Urso extends Pet {
     protected void getStatusPet() {
         // por hora vamos deixar tudo padrão
         Status status = new Status();
+        status.setTipoComida(TipoComida.CARNE);
         switch (getTamanho()) {
             case OVO:
-                status.setFrequenciaFome(8);
-                status.setTimeToEvolve(25);
-                this.setStatus(status);
-                break;
-            case PEQUENO:
-                status = new Status();
-                status.setFrequenciaFome(8);
-                status.setTimeToEvolve(40);
-                this.setStatus(status);
-                break;
-            case MEDIO:
-                status = new Status();
-                status.setFrequenciaFome(6);
+                status.setFrequenciaFome(10);
                 status.setTimeToEvolve(60);
                 this.setStatus(status);
                 break;
+            case PEQUENO:
+                status.setFrequenciaFome(8);
+                status.setTimeToEvolve(120);
+                this.setStatus(status);
+                break;
+            case MEDIO:
+                status.setFrequenciaFome(5);
+                status.setTimeToEvolve(240);
+                this.setStatus(status);
+                break;
             case GRANDE:
-                status = new Status();
-                status.setFrequenciaFome(4);
-                status.setTimeToEvolve(80);
+                status.setFrequenciaFome(2);
+                status.setTimeToEvolve(480);
                 this.setStatus(status);
                 break;
         }

@@ -117,7 +117,7 @@ public abstract class Pet extends Actor implements Clickable, Disposable{
             }
         }
 
-        Gdx.app.log("Evolucao", "Tamanho: "+ getTamanho());
+        Gdx.app.log("Pet", "Tamanho: "+ getTamanho());
 
 
         return isTouched;

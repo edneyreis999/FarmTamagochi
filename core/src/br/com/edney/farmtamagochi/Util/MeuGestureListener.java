@@ -35,32 +35,16 @@ public class MeuGestureListener implements GestureDetector.GestureListener {
         Vector3 vec=new Vector3(x, y, 0);
         cam.unproject(vec);
 
-        for (int i = 0; i < screen.getPets().size(); i++) {
-            if(screen.getPets().get(i).isTouched(0, vec.x, vec.y, x, y)) {
-
-            }
-        }
+        Gdx.app.log("MeuGestureListener", "World coord x: "+ vec.x);
+        Gdx.app.log("MeuGestureListener", "World coord y: "+ vec.y);
+        Gdx.app.log("MeuGestureListener", "Screen coord x: "+ x);
+        Gdx.app.log("MeuGestureListener", "Screen coord y: "+ y);
 
         return false;
     }
 
     @Override
     public boolean longPress(float x, float y) {
-        // Transforma as coordenadas de toque na tela em toque no world
-        Vector3 vec=new Vector3(x, y, 0);
-        cam.unproject(vec);
-
-        Gdx.app.log("MeuGestureListener", "World coord x: "+ vec.x);
-        Gdx.app.log("MeuGestureListener", "World coord y: "+ vec.y);
-        Gdx.app.log("MeuGestureListener", "Screen coord x: "+ x);
-        Gdx.app.log("MeuGestureListener", "Screen coord y: "+ y);
-
-        // if sprite + 10 of px marge is touched
-        for (int i = 0; i < screen.getPets().size(); i++) {
-            if(screen.getPets().get(i).isTouched(0, vec.x, vec.y, x, y)) {
-                screen.evoluirPet(screen.getPets().get(i));
-            }
-        }
         return false;
     }
 
@@ -95,10 +79,6 @@ public class MeuGestureListener implements GestureDetector.GestureListener {
         float cameraRight = cam.position.x + cameraHalfWidth;
         float cameraBottom = cam.position.y - cameraHalfHeight;
         float cameraTop = cam.position.y + cameraHalfHeight;
-
-        Gdx.app.log("Camera", "cameraRight: "+cameraRight);
-        Gdx.app.log("Camera", "mapRight: "+mapRight);
-        Gdx.app.log("Camera", "zoom: "+cam.zoom);
 
         // Horizontal axis
         if(screen.viewport.getWorldWidth() < cam.viewportWidth)

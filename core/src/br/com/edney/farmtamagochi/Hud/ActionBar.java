@@ -33,11 +33,12 @@ public class ActionBar extends WidgetGroup {
         batch.draw(texture, getX(), getY(), getWidth(), getHeight());
     }
 
-    public BtnComida setActiorToBar(BtnComida btnComida){
+    public BtnComida setActiorToBar(BtnComida btnComida, int slot){
         int btnWidth = (int) (this.getWidth() / this.getSlots());
         int btnHeight = (int) this.getHeight();
+        int posX = slot * btnWidth + 10;
         if(btnComida != null){
-            btnComida.setBounds(0, 0, btnWidth, btnHeight);
+            btnComida.setBounds(posX, 0, btnWidth, btnHeight);
         }
         return btnComida;
     }

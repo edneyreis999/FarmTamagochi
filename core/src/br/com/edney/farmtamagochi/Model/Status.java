@@ -3,6 +3,8 @@ package br.com.edney.farmtamagochi.Model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 
+import br.com.edney.farmtamagochi.Enum.TipoComida;
+
 /**
  * Created by Desktop on 25/05/2017.
  */
@@ -13,6 +15,8 @@ public class Status {
     private int frequenciaFome;
     private int quantidadePorFome;
     private int fomeAtual;
+
+    private TipoComida tipoComida;
 
     private float timeToEvolve;
     private boolean isReadyToEvolve;
@@ -26,6 +30,7 @@ public class Status {
         frequenciaFome = 3;
         quantidadePorFome = 1;
         fomeAtual = fomeMax;
+        tipoComida = TipoComida.CARNE;
 
         timeToEvolve = 60;
         isReadyToEvolve = false;
@@ -100,5 +105,13 @@ public class Status {
 
     public void setReadyToEvolve(boolean readyToEvolve) {
         isReadyToEvolve = readyToEvolve;
+    }
+
+    public TipoComida getTipoComida() {
+        return tipoComida;
+    }
+
+    public void setTipoComida(TipoComida tipoComida) {
+        this.tipoComida = tipoComida;
     }
 }

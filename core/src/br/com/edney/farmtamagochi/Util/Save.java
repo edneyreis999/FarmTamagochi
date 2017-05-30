@@ -5,6 +5,7 @@ import com.badlogic.gdx.Preferences;
 
 import java.util.ArrayList;
 
+import br.com.edney.farmtamagochi.Enum.TipoComida;
 import br.com.edney.farmtamagochi.Model.Cavalo;
 import br.com.edney.farmtamagochi.Model.Status;
 import br.com.edney.farmtamagochi.Enum.Especie;
@@ -99,11 +100,13 @@ public class Save {
             case URSO:
                 Urso urso = new Urso(posX, posY, saveId, Tamanho.values()[tamanho]);
                 p = urso;
+                status.setTipoComida(TipoComida.CARNE);
                 p.setStatus(status);
                 break;
             case CAVALO:
                 Cavalo cavalo = new Cavalo(posX, posY, saveId, Tamanho.values()[tamanho]);
                 p = cavalo;
+                status.setTipoComida(TipoComida.VEGETAL);
                 p.setStatus(status);
                 break;
         }

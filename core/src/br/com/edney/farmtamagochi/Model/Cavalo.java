@@ -1,6 +1,7 @@
 package br.com.edney.farmtamagochi.Model;
 
 import br.com.edney.farmtamagochi.Enum.Tamanho;
+import br.com.edney.farmtamagochi.Enum.TipoComida;
 
 import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_CAVALO_GRANDE;
 import static br.com.edney.farmtamagochi.Util.Constantes.QTD_SPRITES_CAVALO_MEDIO;
@@ -65,27 +66,23 @@ public class Cavalo extends Pet {
         Status status = new Status();
         switch (getTamanho()) {
             case OVO:
-                status = new Status();
                 status.setFrequenciaFome(10);
-                status.setTimeToEvolve(40);
+                status.setTimeToEvolve(60);
                 this.setStatus(status);
                 break;
             case PEQUENO:
-                status = new Status();
                 status.setFrequenciaFome(8);
-                status.setTimeToEvolve(30);
+                status.setTimeToEvolve(120);
                 this.setStatus(status);
                 break;
             case MEDIO:
-                status = new Status();
-                status.setFrequenciaFome(6);
-                status.setTimeToEvolve(45);
+                status.setFrequenciaFome(5);
+                status.setTimeToEvolve(240);
                 this.setStatus(status);
                 break;
             case GRANDE:
-                status = new Status();
                 status.setFrequenciaFome(4);
-                status.setTimeToEvolve(60);
+                status.setTimeToEvolve(480);
                 this.setStatus(status);
                 break;
         }

@@ -20,8 +20,7 @@ import br.com.edney.farmtamagochi.Util.Constantes;
 public class ActionBar extends WidgetGroup {
     private Texture texture;
     private int slots = 9;
-    private Widget[] slotItens = new Widget[9];
-    private Label[] slotLabels = new Label[9];
+    private SlotBar[] slotBars = new SlotBar[9];
 
     public ActionBar(){
         texture = new Texture("hud/action_bar.png");
@@ -45,30 +44,36 @@ public class ActionBar extends WidgetGroup {
         if(widget != null){
             widget.setBounds(posX, 0, btnWidth, btnHeight);
         }
+        slotBars[slot] = new SlotBar(widget);
+
         if(widget.getClass().isAssignableFrom(BtnComida.class)){
             BtnComida btnComida = (BtnComida) widget;
             int qtdAlimento = btnComida.getComida().getQtdAlimento();
-            slotLabels[slot] = new Label(String.valueOf(qtdAlimento), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-            setLabelToBar(slotLabels[slot], slot);
+            Label label = new Label(String.valueOf(qtdAlimento), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+            setLabelToBar(label, slot);
+            slotBars[slot].setLabelQtd(label);
         }
-        slotItens[slot] = widget;
         return widget;
     }
 
     public Widget setLabelToBar(Label qtdComidaLabel, int slot){
-        int btnWidth = (int) (this.getWidth() / this.getSlots());
-        int btnHeight = (int) this.getHeight();
-        int posX = slot * btnWidth + 1;
+        float btnWidth = (this.getWidth() / this.getSlots());
+        float btnHeight = (int) this.getHeight();
+        float posX = slot * btnWidth + 5;
         if(qtdComidaLabel != null){
-            qtdComidaLabel.setBounds(posX, btnHeight + 5, btnWidth, btnHeight);
+            qtdComidaLabel.setBounds(posX, btnHeight - btnHeight / 3, btnWidth, btnHeight);
         }
         this.addActor(qtdComidaLabel);
         return qtdComidaLabel;
     }
 
     public void update(){
-        for (int i = 0; i < slotLabels.length; i++) {
-            
+        for (int i = 0; i < slotBars.length; i++) {
+            SlotBar slotBar = slotBars[i];
+            if(slotBar != null && slotBar.getLabelQtd() != null){
+                BtnComida comida = (BtnComida) slotBar.getBotao();
+                slotBar.getLabelQtd().setText(String.valueOf(comida.getComida().getQtdComida()));
+            }
         }
     }
 

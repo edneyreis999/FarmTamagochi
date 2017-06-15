@@ -32,6 +32,8 @@ public class Hud implements Disposable {
     private Viewport viewport;
     private Skin skin = new Skin(Gdx.files.internal("skin/sgx-ui.json"));
 
+    private ActionBar actionBar;
+
 
     private Label fomePet1Label;
     private Label fomePet2Label;
@@ -85,10 +87,12 @@ public class Hud implements Disposable {
 
         evolvePet1Label.setText(String.valueOf(pet1.getStatus().getTimeToEvolve()));
         evolvePet2Label.setText(String.valueOf(pet2.getStatus().getTimeToEvolve()));
+
+        actionBar.update();
     }
 
     private void addActionBar() {
-        ActionBar actionBar = new ActionBar();
+        actionBar = new ActionBar();
         BtnComida btnComidaCarne = (BtnComida) actionBar.setActiorToBar(new BtnComida(TipoComida.CARNE), 0);
         btnComidaCarne.addDragAndDrop(town);
 

@@ -18,6 +18,7 @@ public class Comida extends Widget{
     private Texture imgPayload;
     private int qtdAlimento = 100;
     private int preco = 100;
+    private int qtdComida;
     private TipoComida tipoComida;
     private GameManager gameManager = GameManager.getInstance();
 
@@ -63,6 +64,7 @@ public class Comida extends Widget{
                 break;
         }
 
+        atualizarQtdComida();
         return hasComida;
     }
 
@@ -84,6 +86,19 @@ public class Comida extends Widget{
             Gdx.app.log("Shop", "Comprou comida e gastou: "+preco);
         }else {
             Gdx.app.log("Shop", "you have no gold! preco da carne: "+preco);
+        }
+
+        atualizarQtdComida();
+    }
+
+    private void atualizarQtdComida() {
+        switch (tipoComida){
+            case CARNE:
+                qtdComida = gameManager.getQtdCarne();
+                break;
+            case VEGETAL:
+                qtdComida = gameManager.getQtdVegetal();
+                break;
         }
     }
 
@@ -114,6 +129,8 @@ public class Comida extends Widget{
 
     public void setTipoComida(TipoComida tipoComida) {
         this.tipoComida = tipoComida;
+
+        atualizarQtdComida();
     }
 
     public int getPreco() {
@@ -122,6 +139,10 @@ public class Comida extends Widget{
 
     public void setPreco(int preco) {
         this.preco = preco;
+    }
+
+    public int getQtdComida() {
+        return qtdComida;
     }
 
 

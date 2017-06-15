@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 import br.com.edney.farmtamagochi.Hud.Hud;
 import br.com.edney.farmtamagochi.Model.Cavalo;
-import br.com.edney.farmtamagochi.Model.GameVariaveis;
+import br.com.edney.farmtamagochi.Model.GameManager;
 import br.com.edney.farmtamagochi.Model.Pet;
 import br.com.edney.farmtamagochi.Enum.Tamanho;
 import br.com.edney.farmtamagochi.Model.Urso;
@@ -71,13 +71,13 @@ public class TownScreen implements Screen {
 
         // Cria o pet caso não tenha ( pq pode voltar da screen de evolve )
         Save save = Save.getInstance();
-        GameVariaveis gameVariaveis = save.loadGame();
-        if (gameVariaveis.getQtdPets() <= 0){
+        GameManager gameManager = save.loadGame();
+        if (gameManager.getQtdPets() <= 0){
             this.pets = new ArrayList<Pet>();
             int qtdPets = 0;
             this.pets.add(new Urso(viewport.getWorldWidth() / 4, viewport.getWorldHeight() / 2, ++qtdPets, Tamanho.OVO));
             this.pets.add(new Cavalo(viewport.getWorldWidth() / 4 + 50, viewport.getWorldHeight() / 2 + 50, ++qtdPets, Tamanho.OVO));
-            gameVariaveis.setQtdPets(qtdPets);
+            gameManager.setQtdPets(qtdPets);
             save.saveGame(this);
         }else{
             ArrayList<Pet> loadPets = save.loadPets();
@@ -174,8 +174,8 @@ public class TownScreen implements Screen {
         if(autoSaveCont >= TIME_TO_AUTO_SAVE){
             Save save = Save.getInstance();
             save.saveGame(this);
-            GameVariaveis gameVariaveis = GameVariaveis.getInstance();
-            Gdx.app.log("AutoSave", "Salvei o game e os "+gameVariaveis.getQtdPets()+" pets");
+            GameManager gameManager = GameManager.getInstance();
+            Gdx.app.log("AutoSave", "Salvei o game e os "+ gameManager.getQtdPets()+" pets");
             autoSaveCont = 0;
         }
 
@@ -201,5 +201,13 @@ public class TownScreen implements Screen {
 
     public ArrayList<Pet> getPets() {
         return pets;
+    }
+
+    public void moveToShopScreen() {
+        game.setScreen(new ShopScreen(game));
+    }
+
+    public TamagochiFarm getGame() {
+        return game;
     }
 }

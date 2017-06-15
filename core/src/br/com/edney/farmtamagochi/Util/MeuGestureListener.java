@@ -45,6 +45,7 @@ public class MeuGestureListener implements GestureDetector.GestureListener {
 
     @Override
     public boolean longPress(float x, float y) {
+        screen.moveToShopScreen();
         return false;
     }
 

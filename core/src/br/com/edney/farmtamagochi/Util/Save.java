@@ -9,7 +9,7 @@ import br.com.edney.farmtamagochi.Enum.TipoComida;
 import br.com.edney.farmtamagochi.Model.Cavalo;
 import br.com.edney.farmtamagochi.Model.Status;
 import br.com.edney.farmtamagochi.Enum.Especie;
-import br.com.edney.farmtamagochi.Model.GameVariaveis;
+import br.com.edney.farmtamagochi.Model.GameManager;
 import br.com.edney.farmtamagochi.Model.Pet;
 import br.com.edney.farmtamagochi.Enum.Tamanho;
 import br.com.edney.farmtamagochi.Model.Urso;
@@ -37,19 +37,19 @@ public class Save {
     }
 
     public void saveGame(TownScreen town){
-        GameVariaveis gameVariaveis = GameVariaveis.getInstance();
+        GameManager gameManager = GameManager.getInstance();
         gamePreferences = Gdx.app.getPreferences("game");
-        gamePreferences.putInteger(GameSave.QTD_PET.toString(), gameVariaveis.getQtdPets());
+        gamePreferences.putInteger(GameSave.QTD_PET.toString(), gameManager.getQtdPets());
         gamePreferences.flush();
         salvarPets(town.getPets());
     }
 
-    public GameVariaveis loadGame(){
+    public GameManager loadGame(){
         gamePreferences = Gdx.app.getPreferences("game");
         int qtdPets = gamePreferences.getInteger(GameSave.QTD_PET.toString());
-        GameVariaveis gameVariaveis = GameVariaveis.getInstance();
-        gameVariaveis.setQtdPets(qtdPets);
-        return gameVariaveis;
+        GameManager gameManager = GameManager.getInstance();
+        gameManager.setQtdPets(qtdPets);
+        return gameManager;
     }
 
     public ArrayList<Pet> loadPets(){

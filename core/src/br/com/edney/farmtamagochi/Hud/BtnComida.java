@@ -1,11 +1,14 @@
 package br.com.edney.farmtamagochi.Hud;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 
@@ -26,7 +29,7 @@ public class BtnComida extends Widget {
 
     final private DragAndDrop dragAndDrop = new DragAndDrop();
 
-    BtnComida(TipoComida tipoComida){
+    public BtnComida(TipoComida tipoComida){
         this.setWidth(petsCorpoRaio * 1.3f);
         this.setHeight(petsCorpoRaio * 1.3f);
 

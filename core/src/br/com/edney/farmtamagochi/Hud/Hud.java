@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -88,15 +89,18 @@ public class Hud implements Disposable {
 
     private void addActionBar() {
         ActionBar actionBar = new ActionBar();
-        BtnComida btnComidaCarne = actionBar.setActiorToBar(new BtnComida(TipoComida.CARNE), 0);
+        BtnComida btnComidaCarne = (BtnComida) actionBar.setActiorToBar(new BtnComida(TipoComida.CARNE), 0);
         btnComidaCarne.addDragAndDrop(town);
 
-        BtnComida btnComidaVegetal = actionBar.setActiorToBar(new BtnComida(TipoComida.VEGETAL), 1);
+        BtnComida btnComidaVegetal = (BtnComida) actionBar.setActiorToBar(new BtnComida(TipoComida.VEGETAL), 1);
         btnComidaVegetal.addDragAndDrop(town);
+
+        BtnShop btnShop = (BtnShop) actionBar.setActiorToBar(new BtnShop(town.getGame()), 8);
 
         stage.addActor(actionBar);
         stage.addActor(btnComidaCarne);
         stage.addActor(btnComidaVegetal);
+        stage.addActor(btnShop);
     }
 
     @Override

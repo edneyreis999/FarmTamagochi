@@ -3,6 +3,7 @@ package br.com.edney.farmtamagochi;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import br.com.edney.farmtamagochi.Screen.ShopScreen;
 import br.com.edney.farmtamagochi.Screen.TownScreen;
 
 public class TamagochiFarm extends Game {
